@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Analyzer | Vaakpragna</title>
+        <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "#10B981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="/static/js/auth.js"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow-md">
+      <nav class="bg-white shadow-sm fixed w-full z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <a href="#" class="flex-shrink-0 flex items-center">
+              <span class="text-primary font-['Pacifico'] text-2xl"
+                >Vaakpragna</span
+              >
+            </a>
+            <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+              <a
+                href="/#home"
+                class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="/#features"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Features</a
+              >
+              <a
+                href="/#debate"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Debate Arena</a
+              >
+              <a
+                href="/#leaderboard"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Leaderboard</a
+              >
+              <a
+                href="/#reward"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Rewards</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+                    <div id="authButtons">
+                        <a href="/login_signup" class="text-gray-600 hover:text-gray-900">Log in</a>
+                        <a href="/login_signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign up</a>
+                    </div>
+                    <div id="profileAvatar" class="hidden">
+                        <a href="/profile">
+                            <img id="avatarImage" src="https://via.placeholder.com/40" alt="Profile Avatar" class="h-10 w-10 rounded-full">
+                        </a>
+                    </div>
+                    <button id="logoutButton" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                    <button class="md:hidden text-gray-600" onclick="toggleMenu()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+          <div class="flex items-center sm:hidden">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            >
+              <span class="sr-only">Open main menu</span>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-menu-line ri-lg"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    </header>
+
+    <!-- Main Section -->
+    <main class="max-w-5xl mx-auto px-4 py-10" style="position: relative;top: 50px;">
+    <h1 class="text-3xl font-bold mb-6 text-gray-900" style="color: rgb(79, 70, 229);">Text Analyzer</h1>
+
+    <!-- Input Text -->
+    <div class="mb-6">
+      <textarea id="inputText" rows="6" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Type or speak your text here..."></textarea>
+      <div class="mt-2 flex items-center space-x-3">
+        <button onclick="startVoiceInput()" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">🎤 Speak</button>
+        <button onclick="analyzeText()" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Analyze Text</button>
+        <button onclick="speakOutput()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">🔊 Read Out</button>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="muteToggle" class="sr-only peer" onchange="toggleMute()" />
+          <div class="w-11 h-6 bg-purple-300 rounded-full peer peer-checked:bg-purple-600 transition-colors"></div>
+          <div class="absolute left-0.5 top-0.5 bg-purple-800 w-5 h-5 rounded-full transition-transform peer-checked:translate-x-full"></div>
+        </label>
+        <span class="ml-2 text-sm text-gray-700">Mute</span>
+      </div>
+      <div id="analyzing-spinner" class="hidden mt-6 flex items-center space-x-2">
+        <div class="w-4 h-4 rounded-full bg-indigo-500 animate-bounce [animation-delay:-0.3s]"></div>
+        <div class="w-4 h-4 rounded-full bg-indigo-500 animate-bounce [animation-delay:-0.15s]"></div>
+        <div class="w-4 h-4 rounded-full bg-indigo-500 animate-bounce"></div>
+        <span class="ml-3 text-indigo-600 font-semibold text-sm">Analyzing text...</span>
+        </div>
+
+
+<!-- Results -->
+    <div id="results" class="bg-gray-50 border border-gray-200 p-6 rounded-lg hidden">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Results:</h2>
+
+    <!-- Judgment -->
+    <p id="judgment" class="mb-6 text-lg text-gray-700 font-medium"></p>
+
+    <!-- Corrections -->
+    <div id="corrections" class="space-y-4">
+        <!-- JS will insert correction cards and corrected sentence here -->
+    </div>
+    </div>
+
+  </main>
+
+    <!-- Footer -->
+ <footer class="bg-gray-900 text-white" style="position: relative;top: 55px;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a href="#" class="text-white font-['Pacifico'] text-2xl"
+              >Vaakpragna</a
+            >
+            <p class="mt-4 text-gray-400 text-sm">
+              Enhancing debate and communication skills through AI-powered
+              analysis and practice.
+            </p>
+            <div class="mt-6 flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-twitter-x-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-facebook-fill"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-instagram-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-linkedin-fill"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Platform
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Debate Arena</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Leaderboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Rewards</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Company
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Press</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Legal
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Cookie Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Data Processing</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2025 Vaakpragna. All rights reserved.
+          </p>
+          <div class="mt-4 md:mt-0 flex space-x-6">
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-visa-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-mastercard-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-paypal-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+<script>
+    let speakText = "";
+    let isMuted = false;
+    let previousSpeakText = "";
+
+    // Comprehensive emoji filter using Unicode property escapes (includes ✅ ⚠️ ❌ etc.)
+    let emojiFilter;
+    try {
+        emojiFilter = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
+    } catch (e) {
+        // Fallback for older browsers
+        emojiFilter = /[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
+    }
+
+    function analyzeText() {
+        const text = document.getElementById("inputText").value.trim();
+        if (!text) return alert("Please enter some text");
+
+        document.getElementById("analyzing-spinner").classList.remove("hidden");
+        document.getElementById("results").classList.add("hidden");
+
+        previousSpeakText = "";
+
+        fetch("/check_grammar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text })
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("analyzing-spinner").classList.add("hidden");
+            document.getElementById("results").classList.remove("hidden");
+
+            document.getElementById("judgment").textContent = data.judgment;
+
+            const correctionsList = document.getElementById("corrections");
+            correctionsList.innerHTML = "";
+
+            data.corrections.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "mb-4 p-4 bg-white rounded-lg shadow border border-gray-200";
+                div.innerHTML = `
+                    <p class="text-gray-700 mb-1"><strong>Issue:</strong> ${item.message}</p>
+                    <p class="text-green-700"><strong>Suggested:</strong> <span class="font-mono bg-green-50 px-2 py-1 rounded text-green-800">"${item.replacement}"</span></p>
+                `;
+                correctionsList.appendChild(div);
+            });
+
+            // Parse Gemini feedback
+            const rawGemini = (data.gemini_feedback || "").replace(/^.*?Text:\s*/s, "").trim();
+            const grammarMatch = rawGemini.match(/Grammar:\s*(.*)/i);
+            const styleMatch = rawGemini.match(/Style\s*&\s*Clarity:\s*(.*)/i);
+            const correctedMatch = rawGemini.match(/Corrected Sentence:\s*(.*)/i);
+            const toneMatch = rawGemini.match(/Tone:\s*(.*)/i);
+
+            const grammar = grammarMatch ? grammarMatch[1].trim() : "N/A";
+            const style = styleMatch ? styleMatch[1].trim() : "N/A";
+            const correctedSentence = correctedMatch ? correctedMatch[1].trim() : data.corrected_text;
+            const tone = toneMatch ? toneMatch[1].trim() : "N/A";
+
+            // Gemini feedback UI
+            const feedbackBox = document.createElement("div");
+            feedbackBox.className = "mt-6 p-4 bg-yellow-50 border border-yellow-300 rounded-lg whitespace-pre-line text-yellow-800";
+            feedbackBox.innerHTML = ` 
+<strong>Suggestions:</strong>
+Grammar: ${grammar}
+Style & Clarity: ${style}
+
+<strong>Corrected Sentence:</strong>
+${correctedSentence}
+
+📊 <strong>Tone Assessment:</strong>
+Tone: ${tone}
+            `;
+            correctionsList.appendChild(feedbackBox);
+
+            // Clean and prepare text for speech
+            const cleanedJudgment = data.judgment.replace(emojiFilter, '');
+            const cleanedSentence = correctedSentence.replace(emojiFilter, '');
+            const cleanedGrammar = grammar.replace(emojiFilter, '');
+            const cleanedStyle = style.replace(emojiFilter, '');
+            const cleanedTone = tone.replace(emojiFilter, '');
+            speakText = `${cleanedJudgment}. Corrected sentence: ${cleanedSentence}. Grammar: ${cleanedGrammar}. Style: ${cleanedStyle}. Tone: ${cleanedTone}`;
+
+            if (!isMuted) {
+                speakOutput();
+            }
+        })
+        .catch(err => {
+            document.getElementById("analyzing-spinner").classList.add("hidden");
+            alert("Error analyzing text. Please try again.");
+            console.error(err);
+        });
+    }
+
+    // Voice input
+    function startVoiceInput() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        if (!recognition) {
+            alert("Speech recognition is not supported in this browser.");
+            return;
+        }
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            document.getElementById("inputText").value = event.results[0][0].transcript;
+        };
+
+        recognition.onerror = function(event) {
+            alert("Error recognizing speech. Please try again.");
+        };
+    }
+
+// Voice output (auto or forced)
+// function speakOutput(force = false) {
+//     if (speakText && (force || speakText !== previousSpeakText)) {
+//         speechSynthesis.cancel();
+//         const utter = new SpeechSynthesisUtterance(speakText);
+//         utter.lang = "en-US";
+//         speechSynthesis.speak(utter);
+//         previousSpeakText = speakText;
+//     }
+// }
+function speakOutput(force = false) {
+  // If speakText is missing, don't speak at all
+  if (!speakText || speakText.trim() === "") return;
+
+  // If muted and not forced, don't speak
+  if (isMuted && !force) return;
+
+  speechSynthesis.cancel(); // stop any existing speech
+
+  const cleanedText = speakText.replace(/[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}]/gu, '');
+  const utter = new SpeechSynthesisUtterance(cleanedText);
+  utter.lang = "en-US";
+  speechSynthesis.speak(utter);
+}
+
+    // Mute toggle
+    function toggleMute() {
+      const isChecked = document.getElementById("muteToggle").checked;
+      isMuted = isChecked;
+      if (isMuted) {
+        speechSynthesis.cancel();
+      }
+    }
+
+// Manual "Read Out" button
+    function manualSpeak() {
+      if (isMuted) {
+        alert("Unmute to hear the analysis.");
+        return;
+      }
+      speakOutput(true); // Force speak
+    }
+</script>
+  </body>
+</html>

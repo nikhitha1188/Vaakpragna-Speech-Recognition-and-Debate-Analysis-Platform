@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - Vaakpragna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-2xl flex overflow-hidden">
+        <!-- Left: Brand/Illustration -->
+        <div class="hidden md:flex flex-col justify-center items-center bg-gradient-to-br from-primary to-blue-400 text-white w-1/2 p-10">
+            <img src = "/static/images/vaaklogo.jpg" class="w-48 h-48 object-contain border-white">
+            <p class="text-lg mb-8 text-blue-500">Debate. Learn. Grow.<br>Join the community of thinkers.</p>
+        </div>
+        <!-- Right: Forms -->
+        <div class="w-full md:w-1/2 p-8 relative bg-white flex flex-col justify-center">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div id="loginForm" class="form-active">
+                <h2 class="text-3xl font-bold text-center mb-2 text-primary">Welcome Back!</h2>
+                <p class="text-center text-gray-500 mb-6">Log in to your Vaakpragna account</p>
+                <form id="login" class="space-y-5">
+                    <div>
+                        <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="loginEmail" name="email" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="loginPassword" name="password" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 shadow-md transition-colors">Log In</button>
+                </form>
+                <p class="mt-6 text-center text-gray-600">
+                    Don't have an account? <a href="#" id="showSignup" class="text-primary hover:underline font-semibold">Sign Up</a>
+                </p>
+            </div>
+            <div id="signupForm" class="hidden">
+                <h2 class="text-3xl font-bold text-center mb-2 text-primary">Create Account</h2>
+                <p class="text-center text-gray-500 mb-6">Sign up to join Vaakpragna</p>
+                <form id="signup" class="space-y-5">
+                    <div>
+                        <label for="signupEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="signupEmail" name="email" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="signupUsername" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="signupUsername" name="username" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="signupPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="signupPassword" name="password" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <div>
+                        <label for="signupConfirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" name="confirm_password" class="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 shadow-md transition-colors">Sign Up</button>
+                </form>
+                <p class="mt-6 text-center text-gray-600">
+                    Already have an account? <a href="#" id="showLogin" class="text-primary hover:underline font-semibold">Log In</a>
+                </p>
+            </div>
+            <div id="errorMessage" class="text-red-600 text-center mt-4 hidden"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("closeModal").addEventListener("click", () => {
+            window.location.href = "/";
+        });
+
+        document.getElementById("showSignup").addEventListener("click", (e) => {
+            e.preventDefault();
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("signupForm").classList.remove("hidden");
+            document.getElementById("errorMessage").classList.add("hidden");
+        });
+
+        document.getElementById("showLogin").addEventListener("click", (e) => {
+            e.preventDefault();
+            document.getElementById("signupForm").classList.add("hidden");
+            document.getElementById("loginForm").classList.remove("hidden");
+            document.getElementById("errorMessage").classList.add("hidden");
+        });
+
+        async function handleFormSubmit(formId, endpoint, redirectUrl) {
+            const form = document.getElementById(formId);
+            const errorMessage = document.getElementById("errorMessage");
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                try {
+                    const response = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+                    if (response.ok) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        errorMessage.textContent = result.error;
+                        errorMessage.classList.remove("hidden");
+                    }
+                } catch (err) {
+                    errorMessage.textContent = "An error occurred. Please try again.";
+                    errorMessage.classList.remove("hidden");
+                }
+            });
+        }
+
+        handleFormSubmit("login", "/api/login", "/profile");
+        handleFormSubmit("signup", "/api/signup", "/");
+    </script>
+</body>
+</html>

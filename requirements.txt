@@ -1,0 +1,7 @@
+Flask
+flask-cors
+opencv-python
+dlib
+numpy
+language-tool-python
+requests

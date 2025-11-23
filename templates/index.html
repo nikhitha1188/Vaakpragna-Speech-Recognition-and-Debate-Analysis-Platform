@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vaakpragna - Enhance Your Debate & Communication Skills</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "#10B981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="/static/js/auth.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Inter', sans-serif;
+      }
+      .hero-section {
+          background-image: url('https://readdy.ai/api/search-image?query=A%20modern%20debate%20platform%20with%20subtle%20technology%20elements.%20A%20gradient%20background%20transitioning%20from%20deep%20blue%20to%20purple%20on%20the%20right%20side%20with%20abstract%20digital%20elements.%20The%20left%20side%20has%20a%20clean%2C%20light%20background%20for%20text.%20Professional%2C%20sleek%20design%20suitable%20for%20students%20and%20professionals.%20Minimalist%20style%20with%20soft%20lighting.&width=1600&height=800&seq=hero1&orientation=landscape');
+          background-size: cover;
+          background-position: center;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      .custom-checkbox {
+          appearance: none;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          background-color: white;
+          cursor: pointer;
+          position: relative;
+      }
+      .custom-checkbox:checked {
+          background-color: #4F46E5;
+          border-color: #4F46E5;
+      }
+      .custom-checkbox:checked::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+          width: 0.3rem;
+          height: 0.6rem;
+          border-bottom: 2px solid white;
+          border-right: 2px solid white;
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 3rem;
+          height: 1.5rem;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .switch-slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #e5e7eb;
+          transition: .4s;
+          border-radius: 34px;
+      }
+      .switch-slider:before {
+          position: absolute;
+          content: "";
+          height: 1.1rem;
+          width: 1.1rem;
+          left: 0.2rem;
+          bottom: 0.2rem;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+          background-color: #4F46E5;
+      }
+      input:checked + .switch-slider:before {
+          transform: translateX(1.5rem);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <a href="#" class="flex-shrink-0 flex items-center">
+              <span class="text-primary font-['Pacifico'] text-2xl"
+                >Vaakpragna</span
+              >
+            </a>
+            <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+              <a
+                href="#home"
+                class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="#features"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Features</a
+              >
+              <a
+                href="#debate"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Debate Arena</a
+              >
+              <a
+                href="#leaderboard"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Leaderboard</a
+              >
+              <a
+                href="#reward"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Rewards</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+                    <div id="authButtons" >
+                        <a href="/login_signup" class="text-gray-600 hover:text-gray-900">Log in</a>
+                        <a href="/login_signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" style="position: relative; left: 10px;">Sign up</a>
+                    </div>
+                    <div id="profileAvatar" class="hidden">
+                        <a href="/profile">
+                            <img id="avatarImage" src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish" alt="Profile Avatar" class="h-10 w-10 rounded-full">
+                        </a>
+                    </div>
+                    <button id="logoutButton" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                    <button class="md:hidden text-gray-600" onclick="toggleMenu()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+          <div class="flex items-center sm:hidden">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            >
+              <span class="sr-only">Open main menu</span>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-menu-line ri-lg"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section pt-24 pb-16 md:pt-32 md:pb-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="md:flex md:items-center">
+          <div
+            class="md:w-1/2 text-left py-12 px-4 sm:px-6 lg:py-16 lg:px-8 z-10"
+          >
+            <h1
+              class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl"
+            >
+              <span class="block">Master the Art of</span>
+              <span class="block text-primary">Debate & Communication</span>
+            </h1>
+            <p
+              class="mt-6 text-base text-gray-600 sm:text-lg md:text-xl max-w-3xl"
+            >
+              Enhance your public speaking, body language, and critical thinking
+              with our AI-powered platform designed for students and
+              professionals alike.
+            </p>
+            <!-- <div class="mt-8 flex flex-col sm:flex-row gap-4">
+              <button
+                class="bg-primary text-white px-8 py-3 rounded-button text-base font-medium hover:bg-indigo-700 whitespace-nowrap"
+              >
+                Get Started
+              </button>
+              <button
+                class="text-gray-700 px-8 py-3 rounded-button border border-gray-300 text-base font-medium hover:bg-gray-50 flex items-center justify-center whitespace-nowrap"
+              >
+                <div class="w-5 h-5 mr-2 flex items-center justify-center">
+                  <i class="ri-play-circle-line"></i>
+                </div>
+                Watch Demo
+              </button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Powerful Features to Elevate Your Skills
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Our comprehensive toolkit helps you analyze, practice, and perfect
+            your communication abilities.
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Feature 1 -->
+        <a href="/text-analyzer" style="text-decoration: none; color: inherit;">
+          <div
+            class="bg-gray-50 rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-5"
+            >
+              <i class="ri-file-text-line text-primary ri-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Text Analyzer</h3>
+            <p class="text-gray-600">
+              Submit text or speech transcripts for detailed analysis of
+              grammar, tone, and pace. Get personalized feedback to improve your
+              written and verbal communication.
+            </p>
+          </div>
+        </a>
+
+          <!-- Feature 2 -->
+           <a href="/video-analyzer" style="text-decoration: none; color: inherit;">
+          <div
+            class="bg-gray-50 rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-5"
+            >
+              <i class="ri-video-line text-primary ri-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Video Analyzer</h3>
+            <p class="text-gray-600">
+              Use live camera input or upload videos for AI-powered analysis of
+              your body posture, movement, and non-verbal communication cues.
+            </p>
+          </div>
+          </a>
+
+          <!-- Feature 3 -->
+           <a href="#debate" style="text-decoration: none; color: inherit;">
+          <div
+            class="bg-gray-50 rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-5"
+            >
+              <i class="ri-discuss-line text-primary ri-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Debate Modes</h3>
+            <p class="text-gray-600">
+              Practice with AI opponents, debate friends in real-time, or watch
+              others debate while providing feedback as a spectator.
+            </p>
+          </div>
+          </a>
+
+          <!-- Feature 4 -->
+          <a href="#reward" style="text-decoration: none; color: inherit;">
+          <div
+            class="bg-gray-50 rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-5"
+            >
+              <i class="ri-trophy-line text-primary ri-xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">
+              Achievements & Rewards
+            </h3>
+            <p class="text-gray-600">
+              Earn badges and certificates as you progress through Bronze,
+              Silver, and Gold tiers. Showcase your accomplishments on your
+              public profile.
+            </p>
+          </div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Debate Arena Section -->
+    <section id="debate" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Enter the Debate Arena
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Choose your preferred debate mode and start practicing your skills.
+          </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+          <!-- Debate with AI -->
+          <div
+            class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="h-48 bg-indigo-100 relative">
+              <img
+                src="https://readdy.ai/api/search-image?query=A%20minimalist%2C%20clean%20illustration%20showing%20a%20person%20debating%20with%20an%20AI%20assistant.%20Professional%2C%20modern%20style%20with%20soft%20colors.%20The%20AI%20is%20represented%20by%20abstract%20digital%20elements.%20Simple%2C%20elegant%20design%20with%20plenty%20of%20negative%20space.&width=600&height=400&seq=ai-debate&orientation=landscape"
+                alt="Debate with AI"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Debate with AI
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Practice your debating skills against our advanced AI opponent.
+                Choose from various topics and difficulty levels.
+              </p>
+              <a href="/debate" style="text-decoration: none; color: inherit;">
+              <button
+                class="w-full bg-primary text-white px-4 py-2 rounded-button text-sm font-medium hover:bg-indigo-700 whitespace-nowrap"
+              >
+                Start AI Debate
+              </button>
+              </a>
+            </div>
+          </div>
+
+          <!-- Friend-to-Friend Debate -->
+          <div
+            class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="h-48 bg-indigo-100 relative">
+              <img
+                src="https://readdy.ai/api/search-image?query=Two%20people%20engaged%20in%20a%20friendly%20debate%2C%20facing%20each%20other%20with%20speech%20bubbles%20or%20subtle%20conversation%20indicators.%20Clean%2C%20professional%20illustration%20style%20with%20soft%20colors.%20Modern%2C%20minimalist%20design%20showing%20communication%20in%20a%20positive%20light.&width=600&height=400&seq=friend-debate&orientation=landscape"
+                alt="Friend-to-Friend Debate"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Friend-to-Friend Debate
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Invite a friend to debate with you in real-time. Share an invite
+                code to create a private debate room.
+              </p>
+                                          <div class="mt-3">                <a href="/create_new_room">                  <button                    class="w-full bg-primary text-white px-4 py-2 rounded-button text-sm font-medium hover:bg-indigo-700 whitespace-nowrap"                  >                    Create New Room                  </button>                </a>              </div>
+            </div>
+          </div>
+
+          <!-- Spectator Mode -->
+          <div
+            class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="h-48 bg-indigo-100 relative">
+              <img
+                src="https://readdy.ai/api/search-image?query=A%20group%20of%20people%20watching%20a%20debate%2C%20shown%20from%20behind%20as%20they%20observe%20two%20debaters%20on%20a%20stage%20or%20screen.%20Clean%2C%20professional%20illustration%20style%20with%20soft%20colors.%20Modern%2C%20minimalist%20design%20showing%20an%20audience%20in%20a%20learning%20environment.&width=600&height=400&seq=spectator-mode&orientation=landscape"
+                alt="Spectator Mode"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                Spectator Mode
+              </h3>
+              <p class="text-gray-600 mb-4">
+                Watch ongoing debates, provide feedback, and learn from others.
+                A great way to observe different debating styles.
+              </p>
+              <div class="mb-4">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-gray-700"
+                    >Active Debates</span
+                  >
+                  <span class="text-xs text-gray-500">12 Live Now</span>
+                </div>
+                <div class="bg-white rounded border border-gray-200 p-3 mb-3">
+                  <div class="flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-gray-800">
+                        Climate Change Policies
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        James Wilson vs. Emily Chen
+                      </p>
+                    </div>
+                    <button
+                      class="text-primary text-sm hover:text-indigo-700 whitespace-nowrap"
+                    >
+                      Join
+                    </button>
+                  </div>
+                </div>
+                <div class="bg-white rounded border border-gray-200 p-3">
+                  <div class="flex justify-between items-center">
+                    <div>
+                      <p class="font-medium text-gray-800">
+                        Universal Basic Income
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        Sophia Rodriguez vs. AI Opponent
+                      </p>
+                    </div>
+                    <button
+                      class="text-primary text-sm hover:text-indigo-700 whitespace-nowrap"
+                    >
+                      Join
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-300 whitespace-nowrap"
+              >
+                View All Debates
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="py-16 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Leaderboard
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            See how you stack up against the top debaters on our platform.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-medium text-gray-900">
+                Top Debaters This Month
+              </h3>
+              <div class="flex space-x-2">
+                <button
+                  class="bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap"
+                >
+                  Monthly
+                </button>
+                <button
+                  class="text-gray-500 hover:text-gray-700 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap"
+                >
+                  All Time
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Rank
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Debater
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Wins
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Debates
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Total Points
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span
+                        class="bg-yellow-400 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                        >1</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500 font-bold"
+                      >
+                        MR
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Michael Reynolds
+                        </div>
+                        <div class="text-sm text-gray-500">United States</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">87%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div
+                        class="bg-primary h-1.5 rounded-full"
+                        style="width: 87%"
+                      ></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    142 (124W / 18L)
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                    >
+                      Gold
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span
+                        class="bg-gray-300 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                        >2</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 font-bold"
+                      >
+                        SC
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Sarah Chen
+                        </div>
+                        <div class="text-sm text-gray-500">Canada</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">82%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div
+                        class="bg-primary h-1.5 rounded-full"
+                        style="width: 82%"
+                      ></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    128 (105W / 23L)
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                    >
+                      Gold
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span
+                        class="bg-orange-400 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                        >3</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-500 font-bold"
+                      >
+                        DP
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          David Patel
+                        </div>
+                        <div class="text-sm text-gray-500">United Kingdom</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">79%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div
+                        class="bg-primary h-1.5 rounded-full"
+                        style="width: 79%"
+                      ></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    112 (88W / 24L)
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                    >
+                      Gold
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span
+                        class="bg-gray-200 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                        >4</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 font-bold"
+                      >
+                        JN
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Julia Novak
+                        </div>
+                        <div class="text-sm text-gray-500">Germany</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">76%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div
+                        class="bg-primary h-1.5 rounded-full"
+                        style="width: 76%"
+                      ></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    95 (72W / 23L)
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800"
+                    >
+                      Silver
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <span
+                        class="bg-gray-200 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                        >5</span
+                      >
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div
+                        class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 font-bold"
+                      >
+                        AK
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">
+                          Ahmed Khan
+                        </div>
+                        <div class="text-sm text-gray-500">India</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">73%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div
+                        class="bg-primary h-1.5 rounded-full"
+                        style="width: 73%"
+                      ></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    82 (60W / 22L)
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800"
+                    >
+                      Silver
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <a href="/leaderboard" style="text-decoration: none; color: inherit;">
+            <button
+              class="text-primary text-sm font-medium hover:text-indigo-700 whitespace-nowrap"
+            >
+              View Full Leaderboard →
+            </button>
+          </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section id="reward" class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Rewards & Achievements
+          </h2>
+          <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Track your progress and earn recognition for your debating skills.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg shadow-sm overflow-hidden mb-12">
+          <div class="p-6 sm:p-8">
+            <div class="flex flex-col md:flex-row items-center mb-8">
+              <div class="w-full md:w-2/3 mb-6 md:mb-0 md:pr-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">
+                  Your Achievement Progress
+                </h3>
+                <p class="text-gray-600 mb-6">
+                  Complete debates to unlock certificates and badges. Track your
+                  journey from Bronze to Gold tier.
+                </p>
+                <div class="mb-6">
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700"
+                      >Progress to Gold Tier</span
+                    >
+                    <span class="text-sm font-medium text-gray-700"
+                      >42/100 Debates</span
+                    >
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      class="bg-primary h-2.5 rounded-full"
+                      style="width: 42%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="flex space-x-8">
+                  <div class="text-center">
+                    <div
+                      class="w-16 h-16 mx-auto mb-2 rounded-full bg-yellow-100 border-2 border-yellow-300 flex items-center justify-center"
+                    >
+                      <i class="ri-medal-line text-yellow-500 ri-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700">Bronze Tier</p>
+                    <p class="text-xs text-green-600">Completed</p>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 border-2 border-gray-300 flex items-center justify-center"
+                    >
+                      <i class="ri-medal-line text-gray-400 ri-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700">Silver Tier</p>
+                    <p class="text-xs text-gray-500">42/50 Debates</p>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center opacity-50"
+                    >
+                      <i class="ri-medal-line text-gray-400 ri-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-400">Gold Tier</p>
+                    <p class="text-xs text-gray-400">42/100 Debates</p>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full md:w-1/3">
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-medium text-gray-900">
+                      Current Status
+                    </h4>
+                    <span
+                      class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                    >
+                      Bronze
+                    </span>
+                  </div>
+                  <div class="space-y-3">
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">Total Debates</span>
+                      <span class="text-sm font-medium text-gray-900">42</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">Win Rate</span>
+                      <span class="text-sm font-medium text-gray-900">68%</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">Badges Earned</span>
+                      <span class="text-sm font-medium text-gray-900">7</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-sm text-gray-600">Certificates</span>
+                      <span class="text-sm font-medium text-gray-900">2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">
+          Available Certificates
+        </h3>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Certificate 1 -->
+          <div
+            class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="h-48 bg-indigo-50 relative flex items-center justify-center p-6"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-12 h-12 flex items-center justify-center">
+                  <i class="ri-award-line text-primary ri-2x"></i>
+                </div>
+              </div>
+              <div
+                class="relative bg-white rounded-lg border border-gray-200 p-4 w-full max-w-xs transform rotate-2 shadow-sm"
+              >
+                <div class="text-center">
+                  <h4 class="text-lg font-bold text-gray-900">
+                    Bronze Debater
+                  </h4>
+                  <p class="text-sm text-gray-500 mb-2">
+                    Certificate of Achievement
+                  </p>
+                  <div class="w-16 h-1 bg-primary mx-auto mb-2"></div>
+                  <p class="text-xs text-gray-600">Awarded to</p>
+                  <p class="text-sm font-medium text-gray-800">Your Name</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h4 class="text-lg font-medium text-gray-900 mb-2">
+                Bronze Debater Certificate
+              </h4>
+              <p class="text-sm text-gray-600 mb-4">
+                Complete 25 debates to earn this certificate recognizing your
+                dedication to improving your debate skills.
+              </p>
+              <div class="flex justify-between items-center">
+                <div>
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-check-line text-green-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-600"
+                      >Requirement: 25 debates</span
+                    >
+                  </div>
+                  <div class="flex items-center mt-1">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-check-line text-green-500"></i>
+                    </div>
+                    <span class="text-sm text-green-600">Completed: 42/25</span>
+                  </div>
+                </div>
+                <button
+                  class="bg-primary text-white px-4 py-2 rounded-button text-sm font-medium hover:bg-indigo-700 whitespace-nowrap"
+                >
+                  Claim Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate 2 -->
+          <div
+            class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="h-48 bg-gray-50 relative flex items-center justify-center p-6"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-12 h-12 flex items-center justify-center">
+                  <i class="ri-award-line text-gray-400 ri-2x"></i>
+                </div>
+              </div>
+              <div
+                class="relative bg-white rounded-lg border border-gray-200 p-4 w-full max-w-xs transform rotate-2 shadow-sm opacity-70"
+              >
+                <div class="text-center">
+                  <h4 class="text-lg font-bold text-gray-900">
+                    Silver Debater
+                  </h4>
+                  <p class="text-sm text-gray-500 mb-2">
+                    Certificate of Achievement
+                  </p>
+                  <div class="w-16 h-1 bg-gray-300 mx-auto mb-2"></div>
+                  <p class="text-xs text-gray-600">Awarded to</p>
+                  <p class="text-sm font-medium text-gray-800">Your Name</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h4 class="text-lg font-medium text-gray-900 mb-2">
+                Silver Debater Certificate
+              </h4>
+              <p class="text-sm text-gray-600 mb-4">
+                Complete 50 debates to earn this certificate recognizing your
+                significant progress in debate skills.
+              </p>
+              <div class="flex justify-between items-center">
+                <div>
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-time-line text-yellow-500"></i>
+                    </div>
+                    <span class="text-sm text-gray-600"
+                      >Requirement: 50 debates</span
+                    >
+                  </div>
+                  <div class="flex items-center mt-1">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-time-line text-yellow-500"></i>
+                    </div>
+                    <span class="text-sm text-yellow-600"
+                      >In Progress: 42/50</span
+                    >
+                  </div>
+                </div>
+                <button
+                  class="bg-gray-200 text-gray-500 px-4 py-2 rounded-button text-sm font-medium cursor-not-allowed whitespace-nowrap"
+                >
+                  Locked
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate 3 -->
+          <div
+            class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div
+              class="h-48 bg-gray-50 relative flex items-center justify-center p-6"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-12 h-12 flex items-center justify-center">
+                  <i class="ri-award-line text-gray-300 ri-2x"></i>
+                </div>
+              </div>
+              <div
+                class="relative bg-white rounded-lg border border-gray-200 p-4 w-full max-w-xs transform rotate-2 shadow-sm opacity-50"
+              >
+                <div class="text-center">
+                  <h4 class="text-lg font-bold text-gray-900">Gold Debater</h4>
+                  <p class="text-sm text-gray-500 mb-2">
+                    Certificate of Achievement
+                  </p>
+                  <div class="w-16 h-1 bg-gray-200 mx-auto mb-2"></div>
+                  <p class="text-xs text-gray-600">Awarded to</p>
+                  <p class="text-sm font-medium text-gray-800">Your Name</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <h4 class="text-lg font-medium text-gray-900 mb-2">
+                Gold Debater Certificate
+              </h4>
+              <p class="text-sm text-gray-600 mb-4">
+                Complete 100 debates to earn this prestigious certificate
+                recognizing your mastery of debate skills.
+              </p>
+              <div class="flex justify-between items-center">
+                <div>
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-lock-line text-gray-400"></i>
+                    </div>
+                    <span class="text-sm text-gray-600"
+                      >Requirement: 100 debates</span
+                    >
+                  </div>
+                  <div class="flex items-center mt-1">
+                    <div class="w-4 h-4 mr-2 flex items-center justify-center">
+                      <i class="ri-lock-line text-gray-400"></i>
+                    </div>
+                    <span class="text-sm text-gray-400">Locked: 42/100</span>
+                  </div>
+                </div>
+                <button
+                  class="bg-gray-200 text-gray-500 px-4 py-2 rounded-button text-sm font-medium cursor-not-allowed whitespace-nowrap"
+                >
+                  Locked
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">
+            Claimed Certificates
+          </h3>
+          <div
+            class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm"
+          >
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-6">
+                <h4 class="text-lg font-medium text-gray-900">
+                  Your Achievement Timeline
+                </h4>
+                <span class="text-sm text-gray-500">2 Certificates Earned</span>
+              </div>
+
+              <div class="relative">
+                <!-- Timeline line -->
+                <div
+                  class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200"
+                ></div>
+
+                <!-- Certificate 1 -->
+                <div class="relative flex items-start mb-8">
+                  <div
+                    class="flex-shrink-0 h-16 w-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center z-10 border-4 border-white"
+                  >
+                    <i class="ri-award-line text-primary ri-lg"></i>
+                  </div>
+                  <div
+                    class="ml-6 bg-white rounded-lg border border-gray-200 p-4 flex-grow shadow-sm"
+                  >
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <h5 class="text-base font-medium text-gray-900">
+                          Persuasive Speaker Certificate
+                        </h5>
+                        <p class="text-sm text-gray-500">
+                          Awarded for completing 15 debates with high persuasion
+                          scores
+                        </p>
+                      </div>
+                      <span class="text-xs text-gray-500">Apr 28, 2025</span>
+                    </div>
+                    <div class="mt-3 flex items-center">
+                      <span
+                        class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
+                        >Special Achievement</span
+                      >
+                      <span class="mx-2 text-gray-300">•</span>
+                      <span class="text-xs text-gray-500"
+                        >Certificate ID: VPRG-PS-2025-0142</span
+                      >
+                    </div>
+                    <div class="mt-3 flex space-x-3">
+                      <button
+                        class="text-primary text-xs flex items-center hover:text-indigo-700 whitespace-nowrap"
+                      >
+                        <div
+                          class="w-3 h-3 mr-1 flex items-center justify-center"
+                        >
+                          <i class="ri-download-line"></i>
+                        </div>
+                        Download PDF
+                      </button>
+                      <button
+                        class="text-primary text-xs flex items-center hover:text-indigo-700 whitespace-nowrap"
+                      >
+                        <div
+                          class="w-3 h-3 mr-1 flex items-center justify-center"
+                        >
+                          <i class="ri-share-line"></i>
+                        </div>
+                        Share
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Certificate 2 -->
+                <div class="relative flex items-start">
+                  <div
+                    class="flex-shrink-0 h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center z-10 border-4 border-white"
+                  >
+                    <i class="ri-medal-line text-yellow-500 ri-lg"></i>
+                  </div>
+                  <div
+                    class="ml-6 bg-white rounded-lg border border-gray-200 p-4 flex-grow shadow-sm"
+                  >
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <h5 class="text-base font-medium text-gray-900">
+                          Bronze Debater Certificate
+                        </h5>
+                        <p class="text-sm text-gray-500">
+                          Awarded for completing 25 debates
+                        </p>
+                      </div>
+                      <span class="text-xs text-gray-500">Mar 15, 2025</span>
+                    </div>
+                    <div class="mt-3 flex items-center">
+                      <span
+                        class="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full"
+                        >Bronze Tier</span
+                      >
+                      <span class="mx-2 text-gray-300">•</span>
+                      <span class="text-xs text-gray-500"
+                        >Certificate ID: VPRG-BD-2025-0089</span
+                      >
+                    </div>
+                    <div class="mt-3 flex space-x-3">
+                      <button
+                        class="text-primary text-xs flex items-center hover:text-indigo-700 whitespace-nowrap"
+                      >
+                        <div
+                          class="w-3 h-3 mr-1 flex items-center justify-center"
+                        >
+                          <i class="ri-download-line"></i>
+                        </div>
+                        Download PDF
+                      </button>
+                      <button
+                        class="text-primary text-xs flex items-center hover:text-indigo-700 whitespace-nowrap"
+                      >
+                        <div
+                          class="w-3 h-3 mr-1 flex items-center justify-center"
+                        >
+                          <i class="ri-share-line"></i>
+                        </div>
+                        Share
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a href="#" class="text-white font-['Pacifico'] text-2xl"
+              >Vaakpragna</a
+            >
+            <p class="mt-4 text-gray-400 text-sm">
+              Enhancing debate and communication skills through AI-powered
+              analysis and practice.
+            </p>
+            <div class="mt-6 flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-twitter-x-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-facebook-fill"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-instagram-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-linkedin-fill"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Platform
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Debate Arena</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Leaderboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Rewards</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Company
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Blog</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Press</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Legal
+            </h3>
+            <ul class="mt-4 space-y-2">
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Cookie Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-300 hover:text-white text-sm"
+                  >Data Processing</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2025 Vaakpragna. All rights reserved.
+          </p>
+          <div class="mt-4 md:mt-0 flex space-x-6">
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-visa-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-mastercard-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div class="w-6 h-6 mr-2 flex items-center justify-center">
+                <i class="ri-paypal-fill text-gray-300 ri-lg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        const menuButton = document.querySelector(
+          'button[aria-label="Open main menu"]',
+        );
+        if (menuButton) {
+          menuButton.addEventListener("click", function () {
+            // Mobile menu implementation would go here
+            alert("Mobile menu clicked");
+          });
+        }
+      });
+function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        menu.classList.toggle("hidden");
+    }
+
+    async function checkAuth() {
+        try {
+            const response = await fetch("/api/check_auth");
+            const data = await response.json();
+            const authButtons = document.getElementById("authButtons");
+            const profileAvatar = document.getElementById("profileAvatar");
+            const avatarImage = document.getElementById("avatarImage");
+            if (data.authenticated) {
+                authButtons.classList.add("hidden");
+                profileAvatar.classList.remove("hidden");
+                avatarImage.src = avatarMap[data.avatar] || avatarMap["default"];
+            } else {
+                authButtons.classList.remove("hidden");
+                profileAvatar.classList.add("hidden");
+            }
+        } catch (err) {
+            console.error("Error checking auth:", err);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", checkAuth);
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Only run for leaderboard section
+      const leaderboardSection = document.querySelector('#leaderboard');
+      if (!leaderboardSection) return;
+      let leaderboard = [];
+      try {
+        const res = await fetch('/api/leaderboard');
+        leaderboard = await res.json();
+      } catch (e) {
+        leaderboard = [];
+      }
+      let currentUser = null;
+      try {
+        const authRes = await fetch('/api/check_auth');
+        const authData = await authRes.json();
+        if (authData.authenticated) currentUser = authData.username;
+      } catch (e) {}
+      const tbody = leaderboardSection.querySelector('tbody');
+      tbody.innerHTML = leaderboard.slice(0, 5).map((user, i) => `
+        <tr${currentUser && user.username === currentUser ? ' style=\"background:#e0e7ff\"' : ''}>
+          <td class=\"px-6 py-4 whitespace-nowrap font-bold text-gray-900\">${i + 1}</td>
+          <td class=\"px-6 py-4 whitespace-nowrap\">
+            <div class=\"flex items-center\">
+              <div class=\"w-10 h-10 rounded-full overflow-hidden mr-3\">
+                <img src=\"${user.avatar && user.avatar !== 'default' ? user.avatar : 'https://via.placeholder.com/100'}\" alt=\"Profile\" class=\"w-full h-full object-cover object-top\">
+              </div>
+              <span class=\"font-medium text-gray-900\">${user.username}</span>
+            </div>
+          </td>
+          <td class=\"px-6 py-4 whitespace-nowrap text-gray-700\">${user.wins}</td>
+          <td class=\"px-6 py-4 whitespace-nowrap text-gray-700\">${user.total_debates}</td>
+          <td class=\"px-6 py-4 whitespace-nowrap font-bold text-gray-900\">${user.total_points}</td>
+        </tr>
+      `).join('');
+    });
+    </script>
+  </body>
+</html>

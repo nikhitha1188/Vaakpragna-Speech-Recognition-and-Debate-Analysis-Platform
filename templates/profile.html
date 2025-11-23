@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Vaakpragna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#4F46E5',secondary:'#8B5CF6'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+        <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "#10B981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+        /* Popup animation */
+        .popup-enter {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .popup-enter-active {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 300ms ease-in, transform 300ms ease-in;
+        }
+        .popup-exit {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .popup-exit-active {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 300ms ease-out, transform 300ms ease-out;
+        }
+    </style>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+</head>
+<body class="bg-gray-100 font-sans">
+        <!-- Navbar -->
+    <header class="bg-white shadow-md">
+      <nav class="bg-white shadow-sm fixed w-full z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <a href="#" class="flex-shrink-0 flex items-center">
+              <span class="text-primary font-['Pacifico'] text-2xl"
+                >Vaakpragna</span
+              >
+            </a>
+            <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+              <a
+                href="/#home"
+                class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="/#features"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Features</a
+              >
+              <a
+                href="/#debate"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Debate Arena</a
+              >
+              <a
+                href="/#leaderboard"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Leaderboard</a
+              >
+              <a
+                href="/#reward"
+                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+                >Rewards</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center sm:hidden">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            >
+              <span class="sr-only">Open main menu</span>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-menu-line ri-lg"></i>
+              </div>
+            </button>
+          </div>
+                <div class="flex items-center space-x-4">
+                    <img id="navbarAvatar" src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish" alt="User Avatar" class="h-8 w-8 rounded-full mr-2">
+                    <button id="logoutButton" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                </div>
+            </div>
+        </div>
+      </nav>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style="position: relative;top: 45px;">
+        <section class="bg-white p-6 rounded-lg shadow mb-8">
+            <h1 class="text-3xl font-bold mb-2">User Profile</h1>
+            <p class="text-gray-600 mb-6">Manage your Vaakpragna profile and track your debate progress</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <img id="userAvatar" src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish" alt="User Avatar" class="h-32 w-32 rounded-full mx-auto mb-4">
+                    <h2 id="userName" class="text-xl font-semibold">{{ user.username }}</h2>
+                    <p id="joinDate" class="text-gray-600">Member since {{ user.created_at.split('T')[0] }}</p>
+                    <div class="mt-4 space-y-2">
+                        <a href="#" class="block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Edit Profile</a>
+                        <a href="#" class="block bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">Settings</a>
+                    </div>
+                </div>
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold mb-4">Select Avatar</h3>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <img src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish" alt="Default Avatar" class="h-16 w-16 rounded-full cursor-pointer avatar-option" data-avatar="default">
+                        <img src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520woman%2520with%2520glasses%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=2&orientation=squarish" alt="Scholar Avatar" class="h-16 w-16 rounded-full cursor-pointer avatar-option" data-avatar="scholar">
+                        <img src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520middle-aged%2520man%2520in%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=3&orientation=squarish" alt="Executive Avatar" class="h-16 w-16 rounded-full cursor-pointer avatar-option" data-avatar="executive">
+                        <img src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520creative%2520style%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=4&orientation=squarish" alt="Creative Avatar" class="h-16 w-16 rounded-full cursor-pointer avatar-option" data-avatar="creative">
+                        <img src="https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520woman%2520in%2520professional%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=5&orientation=squarish" alt="Professional Avatar" class="h-16 w-16 rounded-full cursor-pointer avatar-option" data-avatar="professional">
+                    </div>
+                    <button id="saveAvatarButton" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Save Selection</button>
+                </div>
+            </div>
+        </section>
+        <section class="bg-white p-6 rounded-lg shadow mb-8">
+            <h2 class="text-2xl font-bold mb-4">Debate Statistics</h2>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="text-center">
+                    <img src="https://img.freepik.com/premium-vector/debate-icon_946691-2949.jpg" alt="Debates Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Total Debates</h3>
+                    <p id="totalDebates" class="text-gray-600">{{ user.stats.total_debates }}</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGjkXHsjdnMVL-wpAoMaVHOh5OfD_bLlsCqQ&s" alt="Wins Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Wins</h3>
+                    <p id="winsCount" class="text-gray-600">{{ user.stats.wins }}</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4372/4372342.png" alt="Losses Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Losses</h3>
+                    <p id="lossesCount" class="text-gray-600">{{ user.stats.losses }}</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/7839/7839147.png" alt="Win Rate Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Win Rate</h3>
+                    <p id="winRate" class="text-gray-600">
+                        {% if user.stats.total_debates > 0 %}
+                            {{ ((user.stats.wins / user.stats.total_debates) * 100)|round }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="text-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuLR9LcrqqoP8Fnl303iU7gEPtR7rM-cqEAQ&s" alt="Points Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Total Points</h3>
+                    <p id="totalPoints" class="text-gray-600">{{ user.stats.total_points }}</p>
+                </div>
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-semibold mb-2">Strengths</h3>
+                    <div id="strengthsList" class="bg-blue-50 p-4 rounded-lg">
+                        {% if user.stats.strengths and user.stats.strengths != 'Complete debates to identify strengths' %}
+                            <ul class="list-disc pl-5">
+                                {% for strength in user.stats.strengths.split('\n') %}
+                                    <li>{{ strength }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-gray-600">Complete debates to identify strengths</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Areas for Improvement</h3>
+                    <div id="weaknessesList" class="bg-yellow-50 p-4 rounded-lg">
+                        {% if user.stats.weaknesses and user.stats.weaknesses != 'Complete debates to identify areas to improve' %}
+                            <ul class="list-disc pl-5">
+                                {% for weakness in user.stats.weaknesses.split('\n') %}
+                                    <li>{{ weakness }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-gray-600">Complete debates to identify areas to improve</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- <section class="bg-white p-6 rounded-lg shadow mb-8">
+            <h2 class="text-2xl font-bold mb-4">Achievements</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/40" alt="First Debate Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">First Debate</h3>
+                    <p class="text-gray-600">Complete your first debate on any topic</p>
+                    <p class="text-gray-600 mt-2">Locked</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/40" alt="Quick Thinker Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Quick Thinker</h3>
+                    <p class="text-gray-600">Respond to 5 debate points in under 30 seconds each</p>
+                    <p class="text-gray-600 mt-2">Locked</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/40" alt="Master Orator Icon" class="h-10 w-10 mx-auto mb-2">
+                    <h3 class="font-semibold">Master Orator</h3>
+                    <p class="text-gray-600">Win 10 debates with persuasive arguments</p>
+                    <p class="text-gray-600 mt-2">Locked</p>
+                </div>
+            </div>
+        </section> -->
+        <section class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-2xl font-bold mb-4">Upcoming Debates</h2>
+            <div class="text-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/8393/8393149.png" alt="No Debates Icon" class="h-10 w-10 mx-auto mb-2">
+                <h3 class="font-semibold">No Upcoming Debates</h3>
+                <p class="text-gray-600 mb-4">You don't have any scheduled debates. Join a debate or create your own to improve your skills.</p>
+                <a href="/#debate" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Find a Debate</a>
+            </div>
+        </section>
+    </main>
+        <!-- Custom Popup -->
+    <div id="customPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+        <div id="popupContent" class="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full relative transform popup-enter">
+            <button id="closePopup" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="flex items-center">
+                <svg id="popupIcon" class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Icon will be set dynamically -->
+                </svg>
+                <p id="popupMessage" class="text-gray-800 text-lg font-medium"></p>
+            </div>
+        </div>
+    </div>
+ <script>
+    // Popup functions
+    function showPopup(message, type = 'success') {
+        const popup = document.getElementById("customPopup");
+        const popupContent = document.getElementById("popupContent");
+        const popupMessage = document.getElementById("popupMessage");
+        const popupIcon = document.getElementById("popupIcon");
+
+        // Set message
+        popupMessage.textContent = message;
+
+        // Set icon and color based on type
+        if (type === 'success') {
+            popupIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
+            popupIcon.classList.remove('text-red-600');
+            popupIcon.classList.add('text-green-600');
+        } else {
+            popupIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+            popupIcon.classList.remove('text-green-600');
+            popupIcon.classList.add('text-red-600');
+        }
+
+        // Show popup with animation
+        popup.classList.remove('hidden');
+        popupContent.classList.remove('popup-exit', 'popup-exit-active');
+        popupContent.classList.add('popup-enter', 'popup-enter-active');
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => hidePopup(), 3000);
+    }
+
+    function hidePopup() {
+        const popup = document.getElementById("customPopup");
+        const popupContent = document.getElementById("popupContent");
+
+        // Hide popup with animation
+        popupContent.classList.remove('popup-enter', 'popup-enter-active');
+        popupContent.classList.add('popup-exit', 'popup-exit-active');
+
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+    }
+
+    document.getElementById("closePopup").addEventListener("click", hidePopup);
+
+    // Function to update stats UI
+    function updateStatsUI(stats) {
+        const totalDebates = stats.total_debates || 0;
+        const wins = stats.wins || 0;
+        const losses = stats.losses || 0;
+        const totalPoints = stats.total_points || 0;
+        
+        document.getElementById("totalDebates").textContent = totalDebates;
+        document.getElementById("winsCount").textContent = wins;
+        document.getElementById("lossesCount").textContent = totalDebates - wins;
+        
+        const winRate = totalDebates > 0 ? Math.round((wins / totalDebates) * 100) : 0;
+        document.getElementById("winRate").textContent = `${winRate}%`;
+        document.getElementById("totalPoints").textContent = totalPoints;
+        
+        if (stats.strengths && stats.strengths !== "Complete debates to identify strengths") {
+            document.getElementById("strengthsList").innerHTML = 
+                `<ul class="list-disc pl-5">${stats.strengths.split('\n').map(s => `<li>${s}</li>`).join('')}</ul>`;
+        }
+        if (stats.weaknesses && stats.weaknesses !== "Complete debates to identify areas to improve") {
+            document.getElementById("weaknessesList").innerHTML = 
+                `<ul class="list-disc pl-5">${stats.weaknesses.split('\n').map(w => `<li>${w}</li>`).join('')}</ul>`;
+        }
+    }
+
+    // Load user data and stats
+    async function loadUserData() {
+        try {
+            // First check auth
+            const authResponse = await fetch("/api/check_auth");
+            const authData = await authResponse.json();
+            
+            if (!authData.authenticated) {
+                showPopup("Session expired. Please log in again.", "error");
+                setTimeout(() => {
+                    window.location.href = "/login_signup";
+                }, 2000);
+                return;
+            }
+
+            // Then get stats
+            const statsResponse = await fetch("/api/get_debate_stats");
+            const stats = await statsResponse.json();
+            
+            // Update UI
+            document.getElementById("userName").textContent = authData.username || "Unknown User";
+            
+            // Format and display join date
+            const createdAt = authData.created_at ? new Date(authData.created_at) : new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("joinDate").textContent = `Joined ${createdAt.toLocaleDateString('en-US', options)}`;
+            
+            // Update avatar
+            const avatarMap = {
+                "default": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish",
+                "scholar": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520woman%2520with%2520glasses%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=2&orientation=squarish",
+                "executive": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520middle-aged%2520man%2520in%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=3&orientation=squarish",
+                "creative": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520creative%2520style%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=4&orientation=squarish",
+                "professional": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520woman%2520in%2520professional%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=5&orientation=squarish"
+            };
+            const avatarUrl = avatarMap[authData.avatar] || "https://via.placeholder.com/150";
+            document.getElementById("userAvatar").src = avatarUrl;
+            document.getElementById("navbarAvatar").src = avatarUrl;
+
+            // Update stats
+            updateStatsUI(stats);
+        } catch (err) {
+            console.error("Error loading user data:", err);
+            document.getElementById("userName").textContent = "Failed to load";
+            document.getElementById("joinDate").textContent = "Failed to load";
+            document.getElementById("userAvatar").src = "https://via.placeholder.com/150";
+            document.getElementById("navbarAvatar").src = "https://via.placeholder.com/150";
+            showPopup("Failed to load user data. Please try again.", "error");
+        }
+    }
+
+    // Handle avatar selection
+    let selectedAvatar = null;
+    document.querySelectorAll(".avatar-option").forEach(avatar => {
+        avatar.addEventListener("click", () => {
+            document.querySelectorAll(".avatar-option").forEach(img => img.classList.remove("border-4", "border-blue-600"));
+            avatar.classList.add("border-4", "border-blue-600");
+            selectedAvatar = avatar.getAttribute("data-avatar");
+        });
+    });
+
+    // Save avatar selection
+    document.getElementById("saveAvatarButton").addEventListener("click", async () => {
+        if (!selectedAvatar) {
+            showPopup("Please select an avatar first!", "error");
+            return;
+        }
+        try {
+            const response = await fetch("/api/update_avatar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ avatar: selectedAvatar })
+            });
+            const result = await response.json();
+            if (response.ok) {
+                const avatarMap = {
+                    "default": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520a%2520friendly%2520expression%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=1&orientation=squarish",
+                    "scholar": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520woman%2520with%2520glasses%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=2&orientation=squarish",
+                    "executive": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520middle-aged%2520man%2520in%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=3&orientation=squarish",
+                    "creative": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520young%2520person%2520with%2520creative%2520style%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=4&orientation=squarish",
+                    "professional": "https://readdy.ai/api/search-image?query=professional%2520portrait%2520of%2520a%2520woman%2520in%2520professional%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%252C%2520professional%2520lighting%252C%2520detailed%2520facial%2520features%252C%2520modern%2520minimal%2520style&width=200&height=200&seq=5&orientation=squarish"
+                };
+                const avatarUrl = avatarMap[selectedAvatar] || "https://via.placeholder.com/150";
+                document.getElementById("userAvatar").src = avatarUrl;
+                document.getElementById("navbarAvatar").src = avatarUrl;
+                showPopup("Avatar updated successfully!", "success");
+            } else {
+                showPopup(result.error || "Failed to update avatar.", "error");
+            }
+        } catch (err) {
+            console.error("Error saving avatar:", err);
+            showPopup("An error occurred while saving the avatar.", "error");
+        }
+    });
+
+    // Handle logout
+    document.getElementById("logoutButton").addEventListener("click", async () => {
+        try {
+            const response = await fetch("/api/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+            });
+            if (response.ok) {
+                showPopup("Logged out successfully!", "success");
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1000);
+            } else {
+                showPopup("Failed to log out. Please try again.", "error");
+            }
+        } catch (err) {
+            console.error("Error logging out:", err);
+            showPopup("An error occurred while logging out.", "error");
+        }
+    });
+
+    // Initialize the page
+    loadUserData();
+</script>
+</body>
+</html>

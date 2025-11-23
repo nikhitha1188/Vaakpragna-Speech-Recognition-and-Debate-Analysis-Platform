@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friend vs Friend Debate Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="/static/js/auth.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#64748b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+textarea:focus, input:focus {
+outline: none;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+</style>
+</head>
+<body>
+<!-- Navbar -->
+<header class="bg-white shadow-md">
+  <nav class="bg-white shadow-sm w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <a href="#" class="flex-shrink-0 flex items-center">
+          <span class="text-primary font-['Pacifico'] text-2xl"
+            >Vaakpragna</span
+          >
+        </a>
+        <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+          <a
+            href="/#home"
+            class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Home</a
+          >
+          <a
+            href="/#features"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Features</a
+          >
+          <a
+            href="/#debate"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Debate Arena</a
+          >
+          <a
+            href="/#leaderboard"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Leaderboard</a
+          >
+          <a
+            href="/#reward"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Rewards</a
+          >
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+                <div id="authButtons">
+                    <a href="/login_signup" class="text-gray-600 hover:text-gray-900">Log in</a>
+                    <a href="/login_signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign up</a>
+                </div>
+                <div id="profileAvatar" class="hidden">
+                    <a href="/profile">
+                        <img id="avatarImage" src="https://via.placeholder.com/40" alt="Profile Avatar" class="h-10 w-10 rounded-full">
+                    </a>
+                </div>
+                <button id="logoutButton" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                <button class="md:hidden text-gray-600" onclick="toggleMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+      <div class="flex items-center sm:hidden">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+        >
+          <span class="sr-only">Open main menu</span>
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-menu-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+<div class="mt-20">
+    <div id="root"></div>
+    <script type="text/babel">
+    const App = () => {
+    const [player1Name, setPlayer1Name] = React.useState("Player 1");
+    const [player2Name, setPlayer2Name] = React.useState("Player 2");
+    const [player1Argument, setPlayer1Argument] = React.useState("");
+    const [player2Argument, setPlayer2Argument] = React.useState("");
+    const [timeLeft, setTimeLeft] = React.useState(180); // 3 minutes in seconds
+    const [timerActive, setTimerActive] = React.useState(true);
+    const [currentPlayer, setCurrentPlayer] = React.useState(1); // Track current player turn
+    const [debateTopic, setDebateTopic] = React.useState("Should renewable energy replace fossil fuels?");
+    const [debateDescription, setDebateDescription] = React.useState("");
+    const [timeSettings, setTimeSettings] = React.useState({
+      opening: 3,
+      rebuttal: 2,
+      closing: 1,
+      totalDuration: 30
+    });
+    const [debatePhase, setDebatePhase] = React.useState("Opening"); // Current debate phase
+    const [turnCount, setTurnCount] = React.useState(0); // Track total turns
+    const [showWinnerPopup, setShowWinnerPopup] = React.useState(false); // Winner popup state
+    const [winner, setWinner] = React.useState(null); // Store the winner
+    const [debateFormat, setDebateFormat] = React.useState({
+      type: "public-forum",
+      rebuttalRounds: 1
+    }); // Default debate format
+    const [totalTurns, setTotalTurns] = React.useState(4); // Default 4 turns (2 opening + 1 rebuttal round + 2 closing)
+    const [argumentHistory, setArgumentHistory] = React.useState([]);
+
+    // Load debate settings from localStorage
+    React.useEffect(() => {
+      const savedSettings = localStorage.getItem('debateSettings');
+      if (savedSettings) {
+        try {
+          const settings = JSON.parse(savedSettings);
+          if (settings.player1 && settings.player1.name) {
+            setPlayer1Name(settings.player1.name);
+          }
+          if (settings.player2 && settings.player2.name) {
+            setPlayer2Name(settings.player2.name);
+          }
+          if (settings.topic) {
+            setDebateTopic(settings.topic);
+          }
+          if (settings.description) {
+            setDebateDescription(settings.description);
+          }
+          if (settings.timeSettings) {
+            setTimeSettings({
+              opening: parseInt(settings.timeSettings.opening) || 3,
+              rebuttal: parseInt(settings.timeSettings.rebuttal) || 2,
+              closing: parseInt(settings.timeSettings.closing) || 1,
+              totalDuration: parseInt(settings.timeSettings.totalDuration) || 30
+            });
+            // Set initial timer based on opening argument time
+            setTimeLeft(parseInt(settings.timeSettings.opening) * 60 || 180);
+          }
+          // Load debate format settings if available
+          if (settings.debateFormat) {
+            setDebateFormat(settings.debateFormat);
+            
+            // Calculate total turns based on format
+            // 2 opening + (2 * rebuttalRounds) + 2 closing
+            const calculatedTotalTurns = 2 + (2 * settings.debateFormat.rebuttalRounds) + 2;
+            setTotalTurns(calculatedTotalTurns);
+          }
+        } catch (e) {
+          console.error("Error parsing debate settings", e);
+        }
+      }
+    }, []);
+
+    React.useEffect(() => {
+      const timerElement = document.getElementById('timer');
+      let timer;
+      if (timerActive && timeLeft > 0) {
+        timer = setInterval(() => {
+          setTimeLeft(prev => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              setTimerActive(false);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElement.textContent = timeLeft === 0 ? "Time's up!" :
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return () => clearInterval(timer);
+    }, [timeLeft, timerActive]);
+
+    // Determine current debate phase based on turn count and debate format
+    const determineDebatePhase = (count) => {
+      // Always start with opening arguments (2 turns)
+      if (count < 2) return "Opening";
+      
+      // Closing arguments are the last 2 turns
+      if (count >= totalTurns - 2) return "Closing";
+      
+      // Everything in between is a rebuttal round
+      const currentRebuttalRound = Math.floor((count - 2) / 2) + 1;
+      return `Rebuttal ${currentRebuttalRound}`;
+    };
+
+    // Get time settings for the current phase
+    const getTimeForPhase = (phase) => {
+      if (phase === "Opening") return timeSettings.opening * 60;
+      if (phase === "Rebuttal 1" || phase === "Rebuttal 2") return timeSettings.rebuttal * 60;
+      if (phase === "Closing") return timeSettings.closing * 60;
+      return 180; // default 3 minutes
+    };
+
+    const generateJudgement = async (player1Text, player2Text) => {
+      try {
+        const prompt = `
+You are a professional debate judge.
+
+Analyze the arguments of two players. Structure your response like this:
+
+🏆 Winner: Player X
+
+🎯 Player 1
+Score: (number out of 100)
+Strengths:
+- ...
+Weaknesses:
+- ...
+Improvements:
+- ...
+
+🎯 Player 2
+Score: (number out of 100)
+Strengths:
+- ...
+Weaknesses:
+- ...
+Improvements:
+- ...
+
+Be detailed and fair. No extra commentary.
+
+Player 1: ${player1Text}
+Player 2: ${player2Text}
+`;
+
+        const apiKey = "AIzaSyAlpyIaKMRn7cVdJLAa5HU0xETAK9E3-08";
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+
+        const data = await response.json();
+        const resultText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        
+        // Extract winner from result
+        const winnerMatch = resultText.match(/🏆 Winner: (Player \d)/);
+        const winnerName = winnerMatch ? winnerMatch[1] : "Draw";
+        
+        setWinner(winnerName);
+        setShowWinnerPopup(true);
+        
+        // Create modal with results
+        const modal = document.createElement("div");
+        modal.className = "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+        modal.innerHTML = `
+          <div class="bg-white p-6 rounded-lg max-w-4xl w-full overflow-y-auto max-h-[90vh]">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-700">Debate Judgement</h2>
+            <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">${resultText
+              .replace(/(?:^|\n)- /g, "<br>• ")
+              .replace(/\n/g, "<br>")
+              .replace(/🏆 Winner: (Player \d)/, '<h2 class="text-2xl font-bold text-center text-green-600 mb-4">🏆 $1 Wins the Debate</h2>')}
+            </div>
+            <div class="text-center mt-6">
+              <button onclick="this.closest('.fixed').remove()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Close</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+      } catch (error) {
+        console.error("Error generating judgement:", error);
+        setWinner("Draw");
+        setShowWinnerPopup(true);
+      }
+    };
+
+    const submitArgument = (player, argument) => {
+      if (!argument.trim()) return;
+      
+      // Add to argument history
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const newArgument = {
+        player,
+        text: argument,
+        time: timeString,
+        phase: determineDebatePhase(turnCount)
+      };
+      setArgumentHistory(prev => [...prev, newArgument]);
+      
+      // Increment turn count
+      const newTurnCount = turnCount + 1;
+      setTurnCount(newTurnCount);
+      
+      // Determine new debate phase
+      const newPhase = determineDebatePhase(newTurnCount);
+      setDebatePhase(newPhase);
+      
+      // Check if debate is complete based on totalTurns
+      if (newTurnCount >= totalTurns) {
+        generateJudgement(player1Argument, player2Argument);
+      } else {
+        // Set timer for next phase
+        setTimeLeft(getTimeForPhase(newPhase));
+        setTimerActive(true);
+        
+        // Update current player turn
+        setCurrentPlayer(player === 1 ? 2 : 1);
+      }
+      
+      // Clear the argument for the current player
+      if (player === 1) {
+        setPlayer1Argument("");
+      } else {
+        setPlayer2Argument("");
+      }
+    };
+
+    const returnToHome = () => {
+      window.location.href = "/";
+    };
+
+    // Function to handle voice input for player 1
+    const startVoiceInputPlayer1 = () => {
+      if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+        alert("Speech recognition is not supported in this browser.");
+        return;
+      }
+      
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      
+      // Show indicator that we're listening
+      const micBtn1 = document.querySelector('#player1MicBtn');
+      if (micBtn1) {
+        micBtn1.classList.remove('bg-primary');
+        micBtn1.classList.add('bg-red-500');
+        micBtn1.innerHTML = '<i class="ri-mic-fill text-lg"></i>';
+      }
+      
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        setPlayer1Argument(prev => prev + ' ' + transcript.trim());
+      };
+
+      recognition.onend = function() {
+        // Reset the mic button appearance
+        if (micBtn1) {
+          micBtn1.classList.remove('bg-red-500');
+          micBtn1.classList.add('bg-primary');
+          micBtn1.innerHTML = '<i class="ri-mic-line text-lg"></i>';
+        }
+      };
+
+      recognition.onerror = function(event) {
+        alert("Error recognizing speech. Please try again.");
+        // Reset the mic button appearance
+        if (micBtn1) {
+          micBtn1.classList.remove('bg-red-500');
+          micBtn1.classList.add('bg-primary');
+          micBtn1.innerHTML = '<i class="ri-mic-line text-lg"></i>';
+        }
+      };
+    };
+
+    // Function to handle voice input for player 2
+    const startVoiceInputPlayer2 = () => {
+      if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+        alert("Speech recognition is not supported in this browser.");
+        return;
+      }
+      
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      
+      // Show indicator that we're listening
+      const micBtn2 = document.querySelector('#player2MicBtn');
+      if (micBtn2) {
+        micBtn2.classList.remove('bg-indigo-500');
+        micBtn2.classList.add('bg-red-500');
+        micBtn2.innerHTML = '<i class="ri-mic-fill text-lg"></i>';
+      }
+      
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        setPlayer2Argument(prev => prev + ' ' + transcript.trim());
+      };
+
+      recognition.onend = function() {
+        // Reset the mic button appearance
+        if (micBtn2) {
+          micBtn2.classList.remove('bg-red-500');
+          micBtn2.classList.add('bg-indigo-500');
+          micBtn2.innerHTML = '<i class="ri-mic-line text-lg"></i>';
+        }
+      };
+
+      recognition.onerror = function(event) {
+        alert("Error recognizing speech. Please try again.");
+        // Reset the mic button appearance
+        if (micBtn2) {
+          micBtn2.classList.remove('bg-red-500');
+          micBtn2.classList.add('bg-indigo-500');
+          micBtn2.innerHTML = '<i class="ri-mic-line text-lg"></i>';
+        }
+      };
+    };
+
+    return (
+      <div className="min-h-screen py-10 px-4 bg-gradient-to-b from-blue-50 to-white" >
+        <div className="max-w-6xl mx-auto">
+          <header className="text-center mb-10">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Friend vs Friend Debate Room</h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">Challenge your friend to a friendly debate on the same device. Present your arguments, receive feedback, and see who makes the most compelling case.</p>
+          </header>
+          
+          {/* Debate Settings Section */}
+          <section className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+              <span className="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white mr-2">
+                <i className="ri-settings-3-line"></i>
+              </span>
+              Debate Settings
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Debate Topic</h3>
+                <div className="p-3 bg-blue-50 rounded border border-blue-100 text-gray-800">
+                  {debateTopic}
+                  {debateDescription && 
+                    <p className="mt-2 text-sm text-gray-600">{debateDescription}</p>
+                  }
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Time Settings</h3>
+                <div className="grid grid-cols-3 gap-2 text-sm">
+                  <div className="p-3 bg-blue-50 rounded border border-blue-100">
+                    <span className="block font-medium">Opening</span>
+                    <span className="text-gray-700">{timeSettings.opening} minutes</span>
+                  </div>
+                  <div className="p-3 bg-blue-50 rounded border border-blue-100">
+                    <span className="block font-medium">Rebuttal</span>
+                    <span className="text-gray-700">{timeSettings.rebuttal} minutes</span>
+                  </div>
+                  <div className="p-3 bg-blue-50 rounded border border-blue-100">
+                    <span className="block font-medium">Closing</span>
+                    <span className="text-gray-700">{timeSettings.closing} minute</span>
+                  </div>
+                </div>
+                <div className="mt-3 p-2 bg-gray-50 rounded border border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-600">Format: {debateFormat.type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+                    <span className="text-xs text-gray-600">Rebuttal Rounds: {debateFormat.rebuttalRounds}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex items-center justify-between">
+              <div className="flex items-center space-x-8">
+                <div className="text-lg font-semibold text-gray-800">{player1Name} vs {player2Name}</div>
+              </div>
+              <div className="flex items-center">
+                <div className="mr-3 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                  {debatePhase}
+                </div>
+                <div className="text-2xl font-mono bg-gray-800 text-white px-4 py-2 rounded">
+                  <span id="timer">30:00</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          {/* Player Turn Indicator */}
+          <section className="bg-white rounded-lg shadow-md p-6 mb-8 text-center">
+            <h2 className="text-xl font-semibold text-gray-800">Current Turn</h2>
+            <div className="flex items-center justify-center mt-4">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${currentPlayer === 1 ? 'bg-blue-500' : 'bg-gray-300'}`}>P1</div>
+              <div className="mx-3 text-gray-400">vs</div>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg ${currentPlayer === 2 ? 'bg-indigo-500' : 'bg-gray-300'}`}>P2</div>
+            </div>
+            <p className="mt-4 text-gray-700">
+              It's <span className="font-semibold">{currentPlayer === 1 ? player1Name : player2Name}'s</span> turn to speak
+              <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                {debatePhase} ({turnCount+1}/{totalTurns})
+              </span>
+            </p>
+          </section>
+          
+          {/* Debate History */}
+          <section className="bg-white rounded-lg shadow-md p-6 mb-8 min-h-[300px] max-h-[400px] overflow-y-auto">
+            <div className="space-y-4">
+              {argumentHistory.map((arg, index) => (
+                <div key={index} className={`flex items-start gap-4 ${arg.player === 2 ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold ${arg.player === 1 ? 'bg-blue-500' : 'bg-indigo-500'}`}>
+                    P{arg.player}
+                  </div>
+                  <div className="flex-grow">
+                    <div className={`rounded-lg p-4 ${arg.player === 1 ? 'bg-blue-50' : 'bg-indigo-50'}`}>
+                      <div className="flex justify-between mb-1">
+                        <span className={`font-medium text-xs ${arg.player === 1 ? 'text-blue-600' : 'text-indigo-600'}`}>
+                          {arg.phase}
+                        </span>
+                      </div>
+                      <p className="text-gray-800">{arg.text}</p>
+                    </div>
+                    <div className={`mt-1 text-xs text-gray-500 ${arg.player === 2 ? 'text-right' : ''}`}>
+                      {arg.time}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+          
+          {/* Player Debate Boxes */}
+          <section className="grid md:grid-cols-2 gap-6 mb-8">
+            {/* Player 1 Box */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden border-t-4 border-blue-500">
+              <div className="bg-blue-50 p-4 border-b border-gray-200">
+                <h3 className="font-semibold text-gray-800">{player1Name}'s Argument</h3>
+              </div>
+              <div className="p-4">
+                <textarea
+                  value={player1Argument}
+                  onChange={(e) => setPlayer1Argument(e.target.value)}
+                  placeholder="Type your argument here..."
+                  className="w-full h-40 p-3 border border-gray-300 rounded resize-none focus:border-primary focus:ring-1 focus:ring-primary"
+                ></textarea>
+                <div className="flex gap-2">
+                  <button
+                    id="player1MicBtn"
+                    onClick={startVoiceInputPlayer1}
+                    className="mt-3 w-10 h-10 bg-primary text-white rounded-button hover:bg-blue-600 transition-colors flex items-center justify-center">
+                    <i className="ri-mic-line text-lg"></i>
+                  </button>
+                  <button
+                    onClick={() => submitArgument(1, player1Argument)}
+                    className="mt-3 px-4 py-2 bg-primary text-white font-medium rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap flex-grow flex items-center justify-center">
+                    <i className="ri-send-plane-line mr-1"></i> Submit Argument
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* Player 2 Box */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden border-t-4 border-indigo-500">
+              <div className="bg-indigo-50 p-4 border-b border-gray-200">
+                <h3 className="font-semibold text-gray-800">{player2Name}'s Argument</h3>
+              </div>
+              <div className="p-4">
+                <textarea
+                  value={player2Argument}
+                  onChange={(e) => setPlayer2Argument(e.target.value)}
+                  placeholder="Type your argument here..."
+                  className="w-full h-40 p-3 border border-gray-300 rounded resize-none focus:border-primary focus:ring-1 focus:ring-primary"
+                ></textarea>
+                <div className="flex gap-2">
+                  <button
+                    id="player2MicBtn"
+                    onClick={startVoiceInputPlayer2}
+                    className="mt-3 w-10 h-10 bg-indigo-500 text-white rounded-button hover:bg-indigo-600 transition-colors flex items-center justify-center">
+                    <i className="ri-mic-line text-lg"></i>
+                  </button>
+                  <button
+                    onClick={() => submitArgument(2, player2Argument)}
+                    className="mt-3 px-4 py-2 bg-indigo-500 text-white font-medium rounded-button hover:bg-indigo-600 transition-colors whitespace-nowrap flex-grow flex items-center justify-center">
+                    <i className="ri-send-plane-line mr-1"></i> Submit Argument
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          {/* Winner Modal Popup */}
+          {showWinnerPopup && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+                <div className="text-center mb-6">
+                  <div className="w-20 h-20 bg-blue-100 rounded-full mx-auto flex items-center justify-center text-blue-500 mb-4">
+                    <i className="ri-trophy-line ri-2x"></i>
+                  </div>
+                  <h2 className="text-2xl font-semibold text-gray-800">Debate Completed!</h2>
+                  {winner !== "Draw" ? (
+                    <>
+                      <p className="text-gray-600 mt-2">The winner is:</p>
+                      <p className="text-xl font-bold text-blue-600 mt-2">{winner}</p>
+                    </>
+                  ) : (
+                    <p className="text-gray-600 mt-2">The debate ended in a draw!</p>
+                  )}
+                  <p className="text-sm text-gray-500 mt-4">Congratulations to both debaters for their excellent arguments!</p>
+                </div>
+                <div className="flex justify-center">
+                  <button 
+                    onClick={returnToHome} 
+                    className="px-6 py-3 bg-primary rounded-button text-white font-medium hover:bg-blue-700 transition-colors"
+                  >
+                    Return to Home
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <footer className="text-center text-gray-500 text-sm mt-8">
+            <p>© 2025 Friend vs Friend Debate Room. All rights reserved.</p>
+          </footer>
+        </div>
+      </div>
+    );
+    };
+
+    // Add this polyfill to make sure SpeechRecognition works across browsers
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</div>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white" style="position: relative;top: 55px;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <a href="#" class="text-white font-['Pacifico'] text-2xl">Vaakpragna</a>
+        <p class="mt-4 text-gray-400 text-sm">
+          Enhancing debate and communication skills through AI-powered
+          analysis and practice.
+        </p>
+        <div class="mt-6 flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-twitter-x-line"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-facebook-fill"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-instagram-line"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-linkedin-fill"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Features</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">Live Debates</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">AI Opponents</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Debate Tournaments</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Learning Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Resources</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Tutorials</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400 text-sm">© 2025 Vaakpragna. All rights reserved.</p>
+      <p class="text-gray-400 text-sm mt-2 md:mt-0">A project by the Debate Modes Hackathon Team</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friend vs Friend Debate Room</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#60a5fa'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="/static/js/auth.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.range-slider::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background: #3b82f6;
+cursor: pointer;
+}
+.range-slider::-moz-range-thumb {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background: #3b82f6;
+cursor: pointer;
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 34px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #3b82f6;
+}
+input:checked + .switch-slider:before {
+transform: translateX(26px);
+}
+.custom-radio {
+display: flex;
+align-items: center;
+position: relative;
+padding-left: 30px;
+cursor: pointer;
+user-select: none;
+}
+.custom-radio input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.radio-checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #d1d5db;
+border-radius: 50%;
+}
+.custom-radio:hover input ~ .radio-checkmark {
+border-color: #3b82f6;
+}
+.custom-radio input:checked ~ .radio-checkmark {
+background-color: #fff;
+border-color: #3b82f6;
+}
+.radio-checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-radio input:checked ~ .radio-checkmark:after {
+display: block;
+}
+.custom-radio .radio-checkmark:after {
+top: 3px;
+left: 3px;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background: #3b82f6;
+}
+.custom-checkbox {
+display: flex;
+align-items: center;
+position: relative;
+padding-left: 30px;
+cursor: pointer;
+user-select: none;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+}
+.checkbox-checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkbox-checkmark {
+border-color: #3b82f6;
+}
+.custom-checkbox input:checked ~ .checkbox-checkmark {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.checkbox-checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkbox-checkmark:after {
+display: block;
+}
+.custom-checkbox .checkbox-checkmark:after {
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<!-- Navbar -->
+<header class="bg-white shadow-md">
+  <nav class="bg-white shadow-sm fixed w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <a href="#" class="flex-shrink-0 flex items-center">
+          <span class="text-primary font-['Pacifico'] text-2xl"
+            >Vaakpragna</span
+          >
+        </a>
+        <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+          <a
+            href="/#home"
+            class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Home</a
+          >
+          <a
+            href="/#features"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Features</a
+          >
+          <a
+            href="/#debate"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Debate Arena</a
+          >
+          <a
+            href="/#leaderboard"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Leaderboard</a
+          >
+          <a
+            href="/#reward"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Rewards</a
+          >
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+                <div id="authButtons">
+                    <a href="/login_signup" class="text-gray-600 hover:text-gray-900">Log in</a>
+                    <a href="/login_signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign up</a>
+                </div>
+                <div id="profileAvatar" class="hidden">
+                    <a href="/profile">
+                        <img id="avatarImage" src="https://via.placeholder.com/40" alt="Profile Avatar" class="h-10 w-10 rounded-full">
+                    </a>
+                </div>
+                <button id="logoutButton" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                <button class="md:hidden text-gray-600" onclick="toggleMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+      <div class="flex items-center sm:hidden">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+        >
+          <span class="sr-only">Open main menu</span>
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-menu-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+<main class="container mx-auto px-4 py-6 max-w-4xl">
+<section class="mb-8">
+<h2 class="text-lg font-semibold text-gray-800 mb-4">Select Debate Topic</h2>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="border border-gray-200 rounded p-5 bg-white">
+<label class="custom-radio">
+<input type="radio" name="topic-type" checked>
+<span class="radio-checkmark"></span>
+<div class="ml-2">
+<div class="font-medium text-gray-800">Custom Topic</div>
+<p class="text-sm text-gray-600 mt-1">Create your own debate topic and set the stage for a focused discussion.</p>
+</div>
+</label>
+<div class="mt-4 w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary">
+<i class="ri-pencil-line ri-lg"></i>
+</div>
+</div>
+<div class="border border-gray-200 rounded p-5 bg-white">
+<label class="custom-radio">
+<input type="radio" name="topic-type">
+<span class="radio-checkmark"></span>
+<div class="ml-2">
+<div class="font-medium text-gray-800">Random Topic</div>
+<p class="text-sm text-gray-600 mt-1">Let us surprise you with a topic from our curated collection of debate subjects.</p>
+</div>
+</label>
+<div class="mt-4 w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary">
+<i class="ri-refresh-line ri-lg"></i>
+</div>
+</div>
+</div>
+<div class="mt-6 border border-gray-200 rounded p-5 bg-white">
+<div class="mb-4">
+<label for="debate-topic" class="block text-sm font-medium text-gray-700 mb-1">Debate Topic</label>
+<div class="relative">
+<input type="text" id="debate-topic" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter your debate topic here" readonly>
+<div class="absolute right-3 top-2.5 text-xs text-gray-400">0/150</div>
+</div>
+</div>
+<div id="description-container">
+<label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+<textarea id="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Add some context or background information about the topic"></textarea>
+</div>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="text-lg font-semibold text-gray-800 mb-4">Player Configuration</h2>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="border border-gray-200 rounded p-5 bg-white">
+<div class="text-center mb-4">
+<div class="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
+<i class="ri-user-line ri-xl text-primary"></i>
+</div>
+</div>
+<div class="mb-4">
+<label for="player1-name" class="block text-sm font-medium text-gray-700 mb-1">Player 1 Name</label>
+<input type="text" id="player1-name" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+<div class="flex gap-4">
+<label class="custom-radio flex-1">
+<input type="radio" name="player1-position" checked>
+<span class="radio-checkmark"></span>
+<span class="ml-2">For</span>
+</label>
+<label class="custom-radio flex-1">
+<input type="radio" name="player1-position">
+<span class="radio-checkmark"></span>
+<span class="ml-2">Against</span>
+</label>
+</div>
+</div>
+</div>
+<div class="border border-gray-200 rounded p-5 bg-white">
+<div class="text-center mb-4">
+<div class="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
+<i class="ri-user-line ri-xl text-primary"></i>
+</div>
+</div>
+<div class="mb-4">
+<label for="player2-name" class="block text-sm font-medium text-gray-700 mb-1">Player 2 Name</label>
+<input type="text" id="player2-name" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+<div class="flex gap-4">
+<label class="custom-radio flex-1">
+<input type="radio" name="player2-position">
+<span class="radio-checkmark"></span>
+<span class="ml-2">For</span>
+</label>
+<label class="custom-radio flex-1">
+<input type="radio" name="player2-position" checked>
+<span class="radio-checkmark"></span>
+<span class="ml-2">Against</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="text-lg font-semibold text-gray-800 mb-4">Time Settings</h2>
+<div class="border border-gray-200 rounded p-5 bg-white">
+<div class="mb-6">
+<label for="total-duration" class="block text-sm font-medium text-gray-700 mb-1">Total Debate Duration</label>
+<div class="relative">
+<select id="total-duration" class="w-full appearance-none px-4 py-2 pr-8 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+<option value="30">30 minutes</option>
+<option value="45">45 minutes</option>
+<option value="60">60 minutes</option>
+<option value="90">90 minutes</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<div class="flex justify-between items-center mb-4">
+<div class="text-sm font-medium text-gray-700">Time Distribution</div>
+<div class="text-xs text-gray-500">Total: <span id="total-time">30</span> minutes</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Opening</label>
+<div class="relative">
+<input type="number" id="opening-time" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" value="5" min="1" max="30">
+<span class="absolute right-3 top-2.5 text-gray-500">min</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Rebuttal</label>
+<div class="relative">
+<input type="number" id="rebuttal-time" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" value="15" min="1" max="30">
+<span class="absolute right-3 top-2.5 text-gray-500">min</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Closing</label>
+<div class="relative">
+<input type="number" id="closing-time" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" value="10" min="1" max="30">
+<span class="absolute right-3 top-2.5 text-gray-500">min</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="text-lg font-semibold text-gray-800 mb-4">Debate Format</h2>
+<div class="border border-gray-200 rounded p-5 bg-white">
+  <div class="mb-5">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Select Debate Format</label>
+    <div class="grid md:grid-cols-2 gap-4">
+      <label class="border border-gray-200 rounded p-4 cursor-pointer hover:border-primary" id="format-public-forum">
+        <div class="flex items-start">
+          <input type="radio" name="debate-format" value="public-forum" class="mt-1 mr-2" checked>
+          <div>
+            <h3 class="font-medium text-gray-800">Public Forum</h3>
+            <p class="text-sm text-gray-600">Opening arguments, 1 rebuttal round, and closing statements. A quick, accessible debate format.</p>
+            <div class="mt-2 text-xs text-blue-600">Structure: Opening → Rebuttal → Closing</div>
+          </div>
+        </div>
+      </label>
+      <label class="border border-gray-200 rounded p-4 cursor-pointer hover:border-primary" id="format-lincoln-douglas">
+        <div class="flex items-start">
+          <input type="radio" name="debate-format" value="lincoln-douglas" class="mt-1 mr-2">
+          <div>
+            <h3 class="font-medium text-gray-800">Lincoln-Douglas</h3>
+            <p class="text-sm text-gray-600">Value-oriented format with opening, 1 rebuttal round, and closing. Focuses on moral and philosophical issues.</p>
+            <div class="mt-2 text-xs text-blue-600">Structure: Opening → Rebuttal → Closing</div>
+          </div>
+        </div>
+      </label>
+      <label class="border border-gray-200 rounded p-4 cursor-pointer hover:border-primary" id="format-policy">
+        <div class="flex items-start">
+          <input type="radio" name="debate-format" value="policy" class="mt-1 mr-2">
+          <div>
+            <h3 class="font-medium text-gray-800">Policy Debate</h3>
+            <p class="text-sm text-gray-600">In-depth format with opening arguments, 2 rebuttal rounds, and closing statements. Evidence-heavy.</p>
+            <div class="mt-2 text-xs text-blue-600">Structure: Opening → Rebuttal 1 → Rebuttal 2 → Closing</div>
+          </div>
+        </div>
+      </label>
+      <label class="border border-gray-200 rounded p-4 cursor-pointer hover:border-primary" id="format-parliamentary">
+        <div class="flex items-start">
+          <input type="radio" name="debate-format" value="parliamentary" class="mt-1 mr-2">
+          <div>
+            <h3 class="font-medium text-gray-800">Parliamentary Debate</h3>
+            <p class="text-sm text-gray-600">Formal format with opening, 2 rebuttal rounds, and closing. Emphasizes decorum and procedural rules.</p>
+            <div class="mt-2 text-xs text-blue-600">Structure: Opening → Rebuttal 1 → Rebuttal 2 → Closing</div>
+          </div>
+        </div>
+      </label>
+      <label class="border border-gray-200 rounded p-4 cursor-pointer hover:border-primary" id="format-custom">
+        <div class="flex items-start">
+          <input type="radio" name="debate-format" value="custom" class="mt-1 mr-2">
+          <div>
+            <h3 class="font-medium text-gray-800">Custom Format</h3>
+            <p class="text-sm text-gray-600">Design your own debate structure with a custom number of rebuttal rounds.</p>
+            <div class="mt-3 flex items-center" id="custom-rebuttal-container">
+              <label class="text-sm text-gray-700 mr-3">Number of Rebuttal Rounds:</label>
+              <div class="relative">
+                <select id="custom-rebuttals" class="border border-gray-300 rounded py-1 pl-2 pr-8 appearance-none bg-white text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <option value="1">1 Round</option>
+                  <option value="2">2 Rounds</option>
+                  <option value="3">3 Rounds</option>
+                  <option value="4">4 Rounds</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+  <div class="mt-4 bg-blue-50 rounded-lg p-4">
+    <div class="flex items-start">
+      <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full text-blue-500">
+        <i class="ri-information-line"></i>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-blue-800">Debate Structure Overview</h3>
+        <p class="mt-1 text-sm text-blue-600">All formats include opening and closing arguments. The number of rebuttal rounds affects debate length and depth. Choose based on your time availability and the complexity of your topic.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<section class="mb-8">
+<h2 class="text-lg font-semibold text-gray-800 mb-4">Room Permissions</h2>
+<div class="border border-gray-200 rounded p-5 bg-white">
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<div>
+<h3 class="font-medium text-gray-800">Allow Spectators</h3>
+<p class="text-sm text-gray-600">Let others watch the debate without participating</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox" checked>
+<span class="switch-slider"></span>
+</label>
+</div>
+<div class="mt-4 pl-4 border-l-2 border-gray-200">
+<div class="flex items-center">
+<div class="flex-1">
+<label for="max-spectators" class="block text-sm font-medium text-gray-700 mb-1">Maximum Spectators</label>
+</div>
+<div class="flex items-center">
+<input type="number" id="max-spectators" value="20" class="w-16 text-center px-2 py-1 border border-gray-300 rounded">
+<span class="text-sm text-gray-600 ml-2">people</span>
+</div>
+</div>
+<p class="text-xs text-gray-500 mt-1">Set to 0 for unlimited</p>
+</div>
+</div>
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<div>
+<h3 class="font-medium text-gray-800">Enable Judgment</h3>
+<p class="text-sm text-gray-600">Allow designated judges to score and evaluate the debate</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox" checked>
+<span class="switch-slider"></span>
+</label>
+</div>
+<div class="mt-4 pl-4 border-l-2 border-gray-200">
+<h4 class="text-sm font-medium text-gray-700 mb-2">Judgment Criteria</h4>
+<div class="space-y-2">
+<label class="custom-checkbox">
+<input type="checkbox" checked>
+<span class="checkbox-checkmark"></span>
+<span class="ml-2 text-sm">Logical Reasoning</span>
+</label>
+<label class="custom-checkbox">
+<input type="checkbox" checked>
+<span class="checkbox-checkmark"></span>
+<span class="ml-2 text-sm">Evidence & Sources</span>
+</label>
+<label class="custom-checkbox">
+<input type="checkbox" checked>
+<span class="checkbox-checkmark"></span>
+<span class="ml-2 text-sm">Delivery & Presentation</span>
+</label>
+<label class="custom-checkbox">
+<input type="checkbox" checked>
+<span class="checkbox-checkmark"></span>
+<span class="ml-2 text-sm">Rebuttal Effectiveness</span>
+</label>
+</div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center">
+<div>
+<h3 class="font-medium text-gray-800">Allow Spectator Feedback</h3>
+<p class="text-sm text-gray-600">Enable spectators to provide comments and reactions</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox">
+<span class="switch-slider"></span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<div class="flex flex-col md:flex-row gap-4 mt-8">
+<button id="preview-btn" class="flex-1 py-3 px-6 border border-gray-300 rounded-button text-gray-700 font-medium flex items-center justify-center whitespace-nowrap">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-eye-line"></i>
+</div>
+Preview Settings
+</button>
+<button id="create-room-btn" class="flex-1 py-3 px-6 bg-primary rounded-button text-white font-medium flex items-center justify-center whitespace-nowrap">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-check-line"></i>
+</div>
+Create Room
+</button>
+</div>
+</main>
+<!-- Room Created Modal -->
+<div id="room-created-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+<div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+<div class="text-center mb-6">
+<div class="w-16 h-16 bg-green-100 rounded-full mx-auto flex items-center justify-center text-green-500 mb-4">
+<i class="ri-check-line ri-2x"></i>
+</div>
+<h2 class="text-xl font-semibold text-gray-800">Room Created Successfully!</h2>
+<p class="text-gray-600 mt-2">Your debate room is ready. Share this code with participants:</p>
+<div class="mt-4 bg-gray-100 rounded-lg p-3 flex items-center justify-between">
+<span class="font-medium text-gray-800 text-lg">DEBATE-7829</span>
+<button class="text-primary">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-file-copy-line"></i>
+</div>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<a href="/friend_vs_friend"><button class="w-full py-3 px-6 bg-primary rounded-button text-white font-medium whitespace-nowrap">Enter Room Now</button></a>
+<button class="w-full py-3 px-6 border border-gray-300 rounded-button text-gray-700 font-medium whitespace-nowrap">Return to Dashboard</button>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const openingInput = document.getElementById('opening-time');
+  const rebuttalInput = document.getElementById('rebuttal-time');
+  const closingInput = document.getElementById('closing-time');
+  const totalTimeSpan = document.getElementById('total-time');
+  const totalDurationSelect = document.getElementById('total-duration');
+  const topicInput = document.getElementById('debate-topic');
+  const descriptionContainer = document.getElementById('description-container');
+  const radioButtons = document.querySelectorAll('input[name="topic-type"]');
+  const formatRadios = document.querySelectorAll('input[name="debate-format"]');
+  const customRebuttalSelect = document.getElementById('custom-rebuttals');
+  
+  const randomTopics = [
+    "Should Social Media Platforms Be Regulated by Governments?",
+    "Is Remote Work the Future of Employment?",
+    "Should Artificial Intelligence Development Be Limited?",
+    "Is Space Exploration Worth the Investment?",
+    "Should Voting Be Mandatory?",
+    "Is a Universal Basic Income Necessary?",
+    "Should College Education Be Free?",
+    "Is Nuclear Energy the Solution to Climate Change?",
+    "Should Cryptocurrencies Be Globally Adopted?",
+    "Is Genetic Engineering Ethically Acceptable?"
+  ];
+  
+  // Add time adjustment notification container
+  const timeAdjustmentDiv = document.createElement('div');
+  timeAdjustmentDiv.className = "mt-3 px-3 py-2 bg-yellow-50 rounded text-yellow-700 text-sm hidden";
+  timeAdjustmentDiv.id = "time-adjustment-notice";
+  document.querySelector('.mb-6 .flex.justify-between.items-center.mb-4').after(timeAdjustmentDiv);
+  
+  // Set initial state of custom rebuttals select
+  customRebuttalSelect.disabled = true;
+  
+  // Toggle custom rebuttals select based on format selection
+  formatRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'custom') {
+        customRebuttalSelect.disabled = false;
+      } else {
+        customRebuttalSelect.disabled = true;
+      }
+      
+      // Highlight the selected format
+      document.querySelectorAll('[id^="format-"]').forEach(label => {
+        label.classList.remove('border-primary', 'border-2');
+      });
+      
+      document.getElementById(`format-${this.value}`).classList.add('border-primary', 'border-2');
+      
+      // Recalculate time distribution
+      updateTimeDistribution();
+    });
+  });
+  
+  // Listen for changes in custom rebuttal rounds
+  customRebuttalSelect.addEventListener('change', updateTimeDistribution);
+  
+  // Listen for changes in total duration
+  totalDurationSelect.addEventListener('change', updateTimeDistribution);
+  
+  // Set default selected format visual
+  document.getElementById('format-public-forum').classList.add('border-primary', 'border-2');
+  
+  // Calculate and update time distribution based on format and total time
+  function updateTimeDistribution() {
+    const selectedFormat = document.querySelector('input[name="debate-format"]:checked').value;
+    const rebuttalRounds = selectedFormat === 'custom' ? parseInt(customRebuttalSelect.value) : 
+                           (selectedFormat === 'policy' || selectedFormat === 'parliamentary') ? 2 : 1;
+    
+    let baseTotalMinutes = parseInt(totalDurationSelect.value);
+    let adjustedTotalMinutes = baseTotalMinutes;
+    let timeAdjusted = false;
+    
+    // If custom format with more than 2 rebuttal rounds, increase total time
+    if (selectedFormat === 'custom' && rebuttalRounds > 2) {
+      const extraRounds = rebuttalRounds - 2;
+      const extraTimePerRound = 6.5; // 6:30 minutes per extra round
+      const additionalTime = extraRounds * extraTimePerRound;
+      
+      adjustedTotalMinutes = baseTotalMinutes + additionalTime;
+      timeAdjusted = true;
+      
+      // Update notification
+      const timeAdjustmentNotice = document.getElementById('time-adjustment-notice');
+      timeAdjustmentNotice.textContent = `Total debate time automatically increased by ${additionalTime.toFixed(1)} minutes to accommodate ${extraRounds} additional rebuttal round${extraRounds > 1 ? 's' : ''}.`;
+      timeAdjustmentNotice.classList.remove('hidden');
+    } else {
+      // Hide the adjustment notice if no adjustment needed
+      document.getElementById('time-adjustment-notice').classList.add('hidden');
+    }
+    
+    // Update total time display
+    totalTimeSpan.textContent = adjustedTotalMinutes.toFixed(1);
+    
+    // Calculate time allocation based on 5:15:10 ratio
+    const ratio = {
+      opening: 5,
+      rebuttal: 15,
+      closing: 10
+    };
+    const totalRatio = ratio.opening + ratio.rebuttal + ratio.closing; // 30
+    
+    // Calculate times based on ratio
+    const openingTime = Math.round((ratio.opening / totalRatio) * adjustedTotalMinutes);
+    const totalRebuttalTime = Math.round((ratio.rebuttal / totalRatio) * adjustedTotalMinutes);
+    const closingTime = Math.round((ratio.closing / totalRatio) * adjustedTotalMinutes);
+    
+    // For rebuttal rounds, divide total rebuttal time by number of rounds
+    const rebuttalTimePerRound = Math.round(totalRebuttalTime / rebuttalRounds);
+    
+    // Update time inputs
+    openingInput.value = openingTime;
+    rebuttalInput.value = rebuttalTimePerRound;
+    closingInput.value = closingTime;
+    
+    // Update the label to clarify total rebuttal time vs per round
+    const rebuttalLabel = rebuttalInput.closest('div').previousElementSibling;
+    rebuttalLabel.innerHTML = `Rebuttal <span class="text-xs text-gray-500">(${rebuttalTimePerRound} min × ${rebuttalRounds} rounds = ${totalRebuttalTime} min total)</span>`;
+  }
+  
+  radioButtons.forEach(button => {
+    button.addEventListener('change', function() {
+      if (this.parentElement.querySelector('.text-gray-800').textContent === 'Random Topic') {
+        topicInput.value = randomTopics[Math.floor(Math.random() * randomTopics.length)];
+        topicInput.readOnly = true;
+        descriptionContainer.style.display = 'none';
+      } else {
+        topicInput.value = '';
+        topicInput.readOnly = false;
+        descriptionContainer.style.display = 'block';
+      }
+    });
+  });
+  
+  // Initial time distribution calculation
+  updateTimeDistribution();
+  
+  // Function to manually update total time is no longer needed
+  // Keep event listeners for manual input to allow fine-tuning if desired
+  [openingInput, rebuttalInput, closingInput].forEach(input => {
+    input.addEventListener('input', function() {
+      const opening = parseInt(openingInput.value) || 0;
+      const rebuttal = parseInt(rebuttalInput.value) || 0;
+      const closing = parseInt(closingInput.value) || 0;
+      
+      // Calculate actual total (which may differ from ratio-based calculation)
+      const selectedFormat = document.querySelector('input[name="debate-format"]:checked').value;
+      const rebuttalRounds = selectedFormat === 'custom' ? parseInt(customRebuttalSelect.value) : 
+                             (selectedFormat === 'policy' || selectedFormat === 'parliamentary') ? 2 : 1;
+      
+      const total = opening + (rebuttal * rebuttalRounds) + closing;
+      totalTimeSpan.textContent = total.toFixed(1);
+    });
+  });
+  
+  const createRoomBtn = document.getElementById('create-room-btn');
+  const roomCreatedModal = document.getElementById('room-created-modal');
+  const enterRoomBtn = document.querySelector('#room-created-modal button.bg-primary');
+  
+  createRoomBtn.addEventListener('click', function() {
+    // Get the selected debate format
+    const selectedFormat = document.querySelector('input[name="debate-format"]:checked').value;
+    
+    // Determine number of rebuttal rounds based on format
+    let rebuttalRounds = 1; // Default
+    
+    if (selectedFormat === 'policy' || selectedFormat === 'parliamentary') {
+      rebuttalRounds = 2;
+    } else if (selectedFormat === 'custom') {
+      rebuttalRounds = parseInt(customRebuttalSelect.value);
+    }
+    
+    // Store all the settings in localStorage
+    const debateSettings = {
+      topic: document.getElementById('debate-topic').value,
+      description: document.getElementById('description')?.value || '',
+      player1: {
+        name: document.getElementById('player1-name').value || 'Player 1',
+        position: document.querySelector('input[name="player1-position"]:checked').nextElementSibling.nextElementSibling.textContent
+      },
+      player2: {
+        name: document.getElementById('player2-name').value || 'Player 2',
+        position: document.querySelector('input[name="player2-position"]:checked').nextElementSibling.nextElementSibling.textContent
+      },
+      timeSettings: {
+        totalDuration: parseFloat(totalTimeSpan.textContent), // Use the calculated total time
+        opening: parseInt(openingInput.value),
+        rebuttal: parseInt(rebuttalInput.value),
+        closing: parseInt(closingInput.value),
+        totalRebuttalTime: parseInt(rebuttalInput.value) * rebuttalRounds
+      },
+      debateFormat: {
+        type: selectedFormat,
+        rebuttalRounds: rebuttalRounds
+      },
+      allowSpectators: document.querySelector('input[type="checkbox"]').checked,
+      maxSpectators: document.getElementById('max-spectators').value,
+      enableJudgment: document.querySelectorAll('input[type="checkbox"]')[1].checked,
+      allowSpectatorFeedback: document.querySelectorAll('input[type="checkbox"]')[6].checked
+    };
+    
+    // Save to localStorage
+    localStorage.setItem('debateSettings', JSON.stringify(debateSettings));
+    
+    roomCreatedModal.classList.remove('hidden');
+  });
+  
+  enterRoomBtn.addEventListener('click', function(e) {
+    // Will navigate to friend_vs_friend.html via the anchor tag
+    // The debate settings are already stored in localStorage
+  });
+  
+  roomCreatedModal.addEventListener('click', function(e) {
+    if (e.target === roomCreatedModal) {
+      roomCreatedModal.classList.add('hidden');
+    }
+  });
+});
+</script>
+<!-- Footer -->
+ <footer class="bg-gray-900 text-white" style="position: relative;top: 55px;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a href="#" class="text-white font-['Pacifico'] text-2xl"
+              >Vaakpragna</a
+            >
+            <p class="mt-4 text-gray-400 text-sm">
+              Enhancing debate and communication skills through AI-powered
+              analysis and practice.
+            </p>
+            <div class="mt-6 flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-twitter-x-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-facebook-fill"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-instagram-line"></i>
+                </div>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <div class="w-6 h-6 flex items-center justify-center">
+                  <i class="ri-linkedin-fill"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div>
+
+</footer>
+</body>
+</html>

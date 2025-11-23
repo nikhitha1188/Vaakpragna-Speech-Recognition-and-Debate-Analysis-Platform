@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debate Champions Leaderboard</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config={
+theme:{
+extend:{
+colors:{
+primary:'#4F46E5',
+secondary:'#6366F1',
+gold: '#FFD700',
+silver: '#C0C0C0',
+bronze: '#CD7F32'
+},
+borderRadius:{
+'none':'0px',
+'sm':'4px',
+DEFAULT:'8px',
+'md':'12px',
+'lg':'16px',
+'xl':'20px',
+'2xl':'24px',
+'3xl':'32px',
+'full':'9999px',
+'button':'8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<link rel="stylesheet" href="/static/style.css" />
+<script src="/static/js/auth.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+.podium-container {
+display: grid;
+grid-template-areas:
+". first ."
+"second . third";
+grid-template-columns: 1fr 1fr 1fr;
+grid-template-rows: auto auto;
+gap: 10px;
+margin-bottom: 50px;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+}
+.first-place {
+grid-area: first;
+justify-self: center;
+transform: translateY(-10px);
+}
+.second-place {
+grid-area: second;
+justify-self: end;
+padding-right: 10px;
+}
+.third-place {
+grid-area: third;
+justify-self: start;
+padding-left: 10px;
+}
+.profile-border-gold {
+box-shadow: 0 0 0 4px #FFD700, 0 8px 16px rgba(0,0,0,0.1);
+}
+.profile-border-silver {
+box-shadow: 0 0 0 4px #C0C0C0, 0 8px 16px rgba(0,0,0,0.1);
+}
+.profile-border-bronze {
+box-shadow: 0 0 0 4px #CD7F32, 0 8px 16px rgba(0,0,0,0.1);
+}
+.leaderboard-table {
+border-collapse: separate;
+border-spacing: 0;
+}
+.leaderboard-table th {
+position: sticky;
+top: 0;
+background-color: white;
+z-index: 10;
+}
+.leaderboard-table tr:nth-child(even) {
+background-color: #F8F9FA;
+}
+.leaderboard-table tr:hover {
+background-color: #F3F4F6;
+}
+@media (max-width: 768px) {
+.podium-container {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: flex-end;
+gap: 8px;
+padding: 0 16px;
+}
+.first-place {
+order: 2;
+transform: translateY(-10px);
+}
+.second-place {
+order: 1;
+padding-right: 0;
+}
+.third-place {
+order: 3;
+padding-left: 0;
+}
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+</style>
+</head>
+<body>
+<!-- Navbar copied from text-analyzer.html -->
+<header class="bg-white shadow-md">
+  <nav class="bg-white shadow-sm fixed w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <a href="#" class="flex-shrink-0 flex items-center">
+          <span class="text-primary font-['Pacifico'] text-2xl"
+            >Vaakpragna</span
+          >
+        </a>
+        <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
+          <a
+            href="/#home"
+            class="border-primary text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Home</a
+          >
+          <a
+            href="/#features"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Features</a
+          >
+          <a
+            href="/#debate"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Debate Arena</a
+          >
+          <a
+            href="/#leaderboard"
+            class="border-primary text-primary inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Leaderboard</a
+          >
+          <a
+            href="/#reward"
+            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+            >Rewards</a
+          >
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+                <div id="authButtons">
+                    <a href="/login_signup" class="text-gray-600 hover:text-gray-900">Log in</a>
+                    <a href="/login_signup" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Sign up</a>
+                </div>
+                <div id="profileAvatar" class="hidden">
+                    <a href="/profile">
+                        <img id="avatarImage" src="https://via.placeholder.com/40" alt="Profile Avatar" class="h-10 w-10 rounded-full">
+                    </a>
+                </div>
+                <button id="logoutButton" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Log Out</button>
+                <button class="md:hidden text-gray-600" onclick="toggleMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+      <div class="flex items-center sm:hidden">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+        >
+          <span class="sr-only">Open main menu</span>
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-menu-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+<div class="min-h-screen bg-white">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-8">
+<h2 class="text-3xl font-bold text-gray-900">Debate Champions Leaderboard</h2>
+<p class="text-gray-600 mt-2">Top debaters ranked by performance and points earned in our platform</p>
+</div>
+<!-- Top 3 Podium Section -->
+<div class="podium-container mb-16">
+<!-- 1st Place -->
+<div class="first-place">
+<div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center max-w-xs">
+<div class="relative mb-4">
+<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gold text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+<i class="ri-trophy-fill ri-sm mr-1"></i> 1st
+</div>
+<div class="w-24 h-24 rounded-full overflow-hidden profile-border-gold">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20confident%20woman%20with%20long%20brown%20hair%2C%20smiling%20slightly%2C%20business%20attire%2C%20high%20quality%20portrait&width=200&height=200&seq=2&orientation=squarish" alt="1st place" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900">Emma Richardson</h3>
+<div class="mt-2 text-3xl font-bold text-gold">2,845</div>
+<div class="text-sm text-gray-500 mt-1">points</div>
+<div class="mt-4 flex space-x-4 text-sm text-gray-600">
+<div class="flex flex-col items-center">
+<span class="font-medium">142</span>
+<span>Debates</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-medium">98</span>
+<span>Wins</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 2nd Place -->
+<div class="second-place">
+<div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center max-w-xs">
+<div class="relative mb-4">
+<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-silver text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+<i class="ri-trophy-fill ri-sm mr-1"></i> 2nd
+</div>
+<div class="w-20 h-20 rounded-full overflow-hidden profile-border-silver">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20middle-aged%20man%20with%20glasses%20and%20short%20black%20hair%2C%20neutral%20expression%2C%20high%20quality%20portrait&width=200&height=200&seq=3&orientation=squarish" alt="2nd place" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+</div>
+<h3 class="text-lg font-bold text-gray-900">Daniel Nguyen</h3>
+<div class="mt-2 text-2xl font-bold text-silver">2,621</div>
+<div class="text-sm text-gray-500 mt-1">points</div>
+<div class="mt-4 flex space-x-4 text-sm text-gray-600">
+<div class="flex flex-col items-center">
+<span class="font-medium">136</span>
+<span>Debates</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-medium">89</span>
+<span>Wins</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 3rd Place -->
+<div class="third-place">
+<div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center max-w-xs">
+<div class="relative mb-4">
+<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-bronze text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+<i class="ri-trophy-fill ri-sm mr-1"></i> 3rd
+</div>
+<div class="w-20 h-20 rounded-full overflow-hidden profile-border-bronze">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20woman%20with%20short%20blonde%20hair%2C%20smiling%2C%20casual%20professional%20attire%2C%20high%20quality%20portrait&width=200&height=200&seq=4&orientation=squarish" alt="3rd place" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+</div>
+<h3 class="text-lg font-bold text-gray-900">Olivia Martinez</h3>
+<div class="mt-2 text-2xl font-bold text-bronze">2,489</div>
+<div class="text-sm text-gray-500 mt-1">points</div>
+<div class="mt-4 flex space-x-4 text-sm text-gray-600">
+<div class="flex flex-col items-center">
+<span class="font-medium">128</span>
+<span>Debates</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-medium">82</span>
+<span>Wins</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Leaderboard Table Section -->
+<div class="bg-white rounded-xl shadow-lg overflow-hidden">
+<div class="px-6 py-5 border-b border-gray-200">
+<div class="flex justify-between items-center">
+<h3 class="text-xl font-semibold text-gray-900">Leaderboard Rankings</h3>
+<div class="relative">
+<input type="text" placeholder="Search players..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+<div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+<i class="ri-search-line"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto max-h-[500px] overflow-y-auto">
+<table class="w-full leaderboard-table">
+<thead>
+<tr class="text-left text-gray-500 text-sm uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold">Rank</th>
+<th class="px-6 py-4 font-semibold">Player</th>
+<th class="px-6 py-4 font-semibold">Debates</th>
+<th class="px-6 py-4 font-semibold">Wins</th>
+<th class="px-6 py-4 font-semibold">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">4</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20man%20with%20dark%20skin%20and%20short%20black%20hair%2C%20smiling%2C%20business%20casual%2C%20high%20quality%20portrait&width=100&height=100&seq=5&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">James Wilson</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">124</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">76</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">2,356</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">5</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20middle-aged%20woman%20with%20red%20hair%2C%20smiling%2C%20business%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=6&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Sarah Johnson</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">119</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">72</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">2,241</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">6</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20an%20asian%20man%20with%20glasses%2C%20neutral%20expression%2C%20business%20casual%2C%20high%20quality%20portrait&width=100&height=100&seq=7&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Michael Chang</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">115</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">68</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">2,187</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">7</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20woman%20with%20curly%20black%20hair%2C%20smiling%2C%20casual%20professional%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=8&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Rebecca Taylor</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">112</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">65</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">2,103</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">8</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20middle-aged%20man%20with%20salt%20and%20pepper%20hair%2C%20smiling%2C%20business%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=9&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Alexander Davis</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">108</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">62</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">2,056</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">9</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20woman%20with%20hijab%2C%20smiling%2C%20business%20casual%2C%20high%20quality%20portrait&width=100&height=100&seq=10&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Fatima Hassan</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">105</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">59</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,987</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">10</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20man%20with%20beard%20and%20short%20brown%20hair%2C%20neutral%20expression%2C%20casual%20professional%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=11&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Christopher Miller</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">102</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">56</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,934</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">11</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20woman%20with%20short%20black%20hair%2C%20smiling%2C%20business%20casual%2C%20high%20quality%20portrait&width=100&height=100&seq=12&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Jennifer Park</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">98</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">53</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,878</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">12</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20middle-aged%20man%20with%20bald%20head%2C%20smiling%2C%20business%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=13&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Robert Thompson</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">95</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">51</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,825</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">13</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20woman%20with%20long%20brown%20hair%2C%20smiling%2C%20casual%20professional%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=14&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Elizabeth Cooper</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">92</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">48</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,776</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">14</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20man%20with%20glasses%20and%20short%20blonde%20hair%2C%20neutral%20expression%2C%20business%20casual%2C%20high%20quality%20portrait&width=100&height=100&seq=15&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">William Anderson</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">89</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">45</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,732</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">15</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20woman%20with%20shoulder-length%20blonde%20hair%2C%20smiling%2C%20business%20attire%2C%20high%20quality%20portrait&width=100&height=100&seq=16&orientation=squarish" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+</div>
+<span class="font-medium text-gray-900">Samantha White</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">86</td>
+<td class="px-6 py-4 whitespace-nowrap text-gray-700">43</td>
+<td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">1,689</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+<div class="text-sm text-gray-600">Showing 15 of 30 players</div>
+<div class="flex space-x-2">
+<button class="px-3 py-1 rounded-button border border-gray-300 text-gray-700 hover:bg-gray-50 whitespace-nowrap">Previous</button>
+<button class="px-3 py-1 rounded-button bg-primary text-white hover:bg-primary/90 whitespace-nowrap">Next</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer copied from text-analyzer.html -->
+<footer class="bg-gray-900 text-white" style="position: relative;top: 55px;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <a href="#" class="text-white font-['Pacifico'] text-2xl"
+          >Vaakpragna</a
+        >
+        <p class="mt-4 text-gray-400 text-sm">
+          Enhancing debate and communication skills through AI-powered
+          analysis and practice.
+        </p>
+        <div class="mt-6 flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-twitter-x-line"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-facebook-fill"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-instagram-line"></i>
+            </div>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-linkedin-fill"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3
+          class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+        >
+          Platform
+        </h3>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Features</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Debate Arena</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Leaderboard</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Rewards</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3
+          class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+        >
+          Company
+        </h3>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >About Us</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Careers</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Blog</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Press</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3
+          class="text-sm font-semibold text-gray-400 uppercase tracking-wider"
+        >
+          Legal
+        </h3>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Privacy Policy</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Terms of Service</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Cookie Policy</a
+            >
+          </li>
+          <li>
+            <a href="#" class="text-gray-300 hover:text-white text-sm"
+              >Data Processing</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+    >
+      <p class="text-gray-400 text-sm">
+        © 2025 Vaakpragna. All rights reserved.
+      </p>
+      <div class="mt-4 md:mt-0 flex space-x-6">
+        <div class="flex items-center">
+          <div class="w-6 h-6 mr-2 flex items-center justify-center">
+            <i class="ri-visa-fill text-gray-300 ri-lg"></i>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="w-6 h-6 mr-2 flex items-center justify-center">
+            <i class="ri-mastercard-fill text-gray-300 ri-lg"></i>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="w-6 h-6 mr-2 flex items-center justify-center">
+            <i class="ri-paypal-fill text-gray-300 ri-lg"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+  // Fetch leaderboard data
+  let leaderboard = [];
+  try {
+    const res = await fetch('/api/leaderboard');
+    leaderboard = await res.json();
+  } catch (e) {
+    leaderboard = [];
+  }
+
+  // Try to get logged-in username
+  let currentUser = null;
+  try {
+    const authRes = await fetch('/api/check_auth');
+    const authData = await authRes.json();
+    if (authData.authenticated) currentUser = authData.username;
+  } catch (e) {}
+
+  // Podium
+  const podium = leaderboard.slice(0, 3);
+  const tableRows = leaderboard.slice(3);
+
+  // Podium rendering
+  function podiumHtml(place, user, color, size) {
+    if (!user) return '';
+    // Use user.avatar if it's a valid URL, else placeholder
+    let avatarUrl = user.avatar && user.avatar !== 'default' ? user.avatar : 'https://via.placeholder.com/100';
+    return `<div class="${place}-place">
+      <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center max-w-xs">
+        <div class="relative mb-4">
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-${color} text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+            <i class="ri-trophy-fill ri-sm mr-1"></i> ${place.charAt(0).toUpperCase() + place.slice(1)}
+          </div>
+          <div class="w-${size} h-${size} rounded-full overflow-hidden profile-border-${color}">
+            <img src="${avatarUrl}" alt="${place} place" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900">${user.username}</h3>
+        <div class="mt-2 text-3xl font-bold text-${color}">${user.total_points}</div>
+        <div class="text-sm text-gray-500 mt-1">points</div>
+        <div class="mt-4 flex space-x-4 text-sm text-gray-600">
+          <div class="flex flex-col items-center">
+            <span class="font-medium">${user.total_debates}</span>
+            <span>Debates</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="font-medium">${user.wins}</span>
+            <span>Wins</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+  document.querySelector('.podium-container').innerHTML =
+    podiumHtml('second', podium[1], 'silver', 20) +
+    podiumHtml('first', podium[0], 'gold', 24) +
+    podiumHtml('third', podium[2], 'bronze', 20);
+
+  // Table rendering
+  const tbody = document.querySelector('.leaderboard-table tbody');
+  tbody.innerHTML = tableRows.map((user, i) => {
+    let avatarUrl = user.avatar && user.avatar !== 'default' ? user.avatar : 'https://via.placeholder.com/100';
+    return `
+    <tr${currentUser && user.username === currentUser ? ' style="background:#e0e7ff"' : ''}>
+      <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${i + 4}</td>
+      <td class="px-6 py-4 whitespace-nowrap">
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full overflow-hidden mr-3">
+            <img src="${avatarUrl}" alt="Profile" class="w-full h-full object-cover object-top" onerror="this.onerror=null;this.src='https://via.placeholder.com/100'">
+          </div>
+          <span class="font-medium text-gray-900">${user.username}</span>
+        </div>
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-gray-700">${user.total_debates}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-gray-700">${user.wins}</td>
+      <td class="px-6 py-4 whitespace-nowrap font-bold text-gray-900">${user.total_points}</td>
+    </tr>
+  `;
+  }).join('');
+
+  // Search functionality
+  const searchInput = document.querySelector('input[type="text"]');
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    Array.from(tbody.children).forEach(row => {
+      const playerName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+      row.style.display = playerName.includes(searchTerm) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>
